@@ -1,0 +1,18 @@
+{
+  "name": "app",
+  "private": "true",
+  "dependencies": {
+    "@js-temporal/polyfill": "^0.4.0",
+    "@mantine/core": "^4.0.8",
+    "@mantine/hooks": "^4.0.8",
+    "@tabler/icons": "^1.59.0",
+    "esbuild": "^0.14.27",
+    "install": "^0.13.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "tone": "^14.7.77"
+  },
+  "scripts": {
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --loader:.js=jsx"
+  }
+}
