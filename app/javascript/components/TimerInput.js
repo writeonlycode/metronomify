@@ -15,7 +15,7 @@ const TimerInput = ({ label, timer, onChange }) => {
           radius="xl"
           variant="filled"
           style={{ flexGrow: 0 }}
-          onClick={() => timer.setInitial(timer.initial.subtract({ seconds: 1 }))}
+          onClick={() => timer.setInitial(timer.initial.subtract({ minutes: 1 }))}
         >
           <IconMinus size="18px" />
         </ActionIcon>
@@ -44,7 +44,7 @@ const TimerInput = ({ label, timer, onChange }) => {
           radius="xl"
           variant="filled"
           style={{ flexGrow: 0 }}
-          onClick={() => timer.setInitial(timer.initial.add({ seconds: 1 }))}
+          onClick={() => timer.setInitial(timer.initial.add({ minutes: 1 }))}
         >
           <IconPlus size="18px" />
         </ActionIcon>
