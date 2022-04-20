@@ -1,7 +1,8 @@
 import React from "react";
 
-import {MantineProvider} from "@mantine/styles";
-import {Container} from "@mantine/core";
+import { MantineProvider } from "@mantine/styles";
+import { Container } from "@mantine/core";
+import {NotificationsProvider} from "@mantine/notifications";
 
 const MainContainer = ({ children }) => {
   return (
@@ -13,18 +14,22 @@ const MainContainer = ({ children }) => {
       }}
       withGlobalStyles
     >
-      <Container
-        size="sm"
-        px="xl"
-        style={{
-          height: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-        }}
+      <NotificationsProvider
+        position="top-center"
       >
-        {children}
-      </Container>
+        <Container
+          size="sm"
+          px="xl"
+          style={{
+            height: "100vh",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+          }}
+        >
+          {children}
+        </Container>
+      </NotificationsProvider>
     </MantineProvider>
   );
 };
