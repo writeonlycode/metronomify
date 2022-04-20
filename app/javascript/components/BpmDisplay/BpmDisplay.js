@@ -7,7 +7,7 @@ const BpmDisplay = ({ value, onChange }) => {
 
   useEffect(() => {
     setBpm(value);
-  }, []);
+  });
 
   useEffect(() => {
     onChange?.(bpm)

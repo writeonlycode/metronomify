@@ -14,7 +14,6 @@ import useMetronome from "../../hooks/useMetronome/useMetronome";
 import useTimer from "../../hooks/useTimer";
 import useTone from "../../hooks/useTone";
 
-
 const App = () => {
   const [running, toggle] = useToggle(false, [true, false]);
   const metronome = useMetronome({ bpm: 60, beats: 4, emphasis: true });
@@ -23,7 +22,7 @@ const App = () => {
   const timer = useTimer({ minutes: 5 }, () => tone.playAlarm());
 
   useEffect(() => {
-    if ( running ) {
+    if (running) {
       metronome.start();
       timer.start();
     } else {
@@ -38,24 +37,28 @@ const App = () => {
   const handler = (event) => {
     switch (event.code) {
       case "Space":
+        event.preventDefault();
         toggle();
         break;
 
       case "ArrowLeft":
-        setBpm((prevCount) => prevCount - 1);
+        event.preventDefault();
+        metronome.setBpm((prevCount) => prevCount - 1);
         break;
 
       case "ArrowRight":
-        setBpm((prevCount) => prevCount + 1);
+        event.preventDefault();
+        metronome.setBpm((prevCount) => prevCount + 1);
         break;
 
       case "PageUp":
-        console.log("+10");
-        setBpm((prevCount) => prevCount + 10);
+        event.preventDefault();
+        metronome.setBpm((prevCount) => prevCount + 10);
         break;
 
       case "PageDown":
-        setBpm((prevCount) => prevCount - 10);
+        event.preventDefault();
+        metronome.setBpm((prevCount) => prevCount - 10);
         break;
     }
   };
