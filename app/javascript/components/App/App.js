@@ -13,6 +13,8 @@ import SettingsDrawer from "../SettingsDrawer";
 import useMetronome from "../../hooks/useMetronome/useMetronome";
 import useTimer from "../../hooks/useTimer";
 import useTone from "../../hooks/useTone";
+import CopyButton from "../CopyButton";
+import {Temporal} from "@js-temporal/polyfill";
 
 const App = () => {
   const [running, toggle] = useToggle(false, [true, false]);
@@ -65,9 +67,19 @@ const App = () => {
 
   useWindowEvent("keydown", handler);
 
+  const now = () => {
+    return Temporal.Now.plainDateISO().toLocaleString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  }
+
   return (
     <MainContainer>
       <SettingsButton onClick={() => setSettingsOpened(true)} />
+      <CopyButton onClick={() => navigator.clipboard.writeText(`${now()}\n${metronome.bpm} bpm`)} />
       <BpmDisplay
         value={metronome.bpm}
         onChange={(value) => metronome.setBpm(value)}
