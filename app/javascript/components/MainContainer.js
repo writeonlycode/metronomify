@@ -1,8 +1,11 @@
 import React from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 import { MantineProvider } from "@mantine/styles";
 import { Container } from "@mantine/core";
-import {NotificationsProvider} from "@mantine/notifications";
+import { NotificationsProvider } from "@mantine/notifications";
+
+const queryClient = new QueryClient();
 
 const MainContainer = ({ children }) => {
   return (
@@ -14,9 +17,7 @@ const MainContainer = ({ children }) => {
       }}
       withGlobalStyles
     >
-      <NotificationsProvider
-        position="top-center"
-      >
+      <NotificationsProvider position="top-center">
         <Container
           size="sm"
           px="xl"
@@ -27,7 +28,9 @@ const MainContainer = ({ children }) => {
             justifyContent: "center",
           }}
         >
-          {children}
+          <QueryClientProvider client={queryClient}>
+            {children}
+          </QueryClientProvider>
         </Container>
       </NotificationsProvider>
     </MantineProvider>

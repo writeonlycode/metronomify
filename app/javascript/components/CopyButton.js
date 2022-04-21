@@ -24,11 +24,9 @@ const CopyButton = ({ bpm }) => {
   };
 
   return (
-    <Affix position={{ top: 84, right: 32 }}>
-      <ActionIcon size="xl" radius="xl" variant="filled" onClick={handleClick}>
-        <IconCopy />
-      </ActionIcon>
-    </Affix>
+    <ActionIcon size="xl" radius="xl" variant="filled" style={{ marginBottom: "8px" }} onClick={handleClick}>
+      <IconCopy />
+    </ActionIcon>
   );
 };
 

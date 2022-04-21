@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Button, Space, Checkbox } from "@mantine/core";
+import { Button, Space, Checkbox, Affix } from "@mantine/core";
 import { useToggle, useWindowEvent } from "@mantine/hooks";
 
 import MainContainer from "../MainContainer";
@@ -14,7 +14,8 @@ import useMetronome from "../../hooks/useMetronome/useMetronome";
 import useTimer from "../../hooks/useTimer";
 import useTone from "../../hooks/useTone";
 import CopyButton from "../CopyButton";
-import { Temporal } from "@js-temporal/polyfill";
+import User from "../User";
+
 
 const App = () => {
   const [running, toggle] = useToggle(false, [true, false]);
@@ -69,11 +70,14 @@ const App = () => {
 
   return (
     <MainContainer>
-      <SettingsButton onClick={() => setSettingsOpened(true)} />
-      <CopyButton bpm={metronome.bpm} />
+      <Affix position={{ top: 32, right: 32 }}>
+        <User />
+        <SettingsButton onClick={() => setSettingsOpened(true)} />
+        <CopyButton bpm={metronome.bpm} />
+      </Affix>
       <BpmDisplay
-        value={metronome.bpm}
-        onChange={(value) => metronome.setBpm(value)}
+        bpm={metronome.bpm}
+        setBpm={metronome.setBpm}
       />
       <div>
         <Space h="2rem" />

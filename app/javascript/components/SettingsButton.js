@@ -1,15 +1,19 @@
-import React from 'react';
-import {ActionIcon, Affix} from '@mantine/core';
-import {IconAdjustments} from '@tabler/icons';
+import React from "react";
+import { ActionIcon } from "@mantine/core";
+import { IconAdjustments } from "@tabler/icons";
 
-const SettingsButton = ({onClick}) => {
+const SettingsButton = ({ onClick }) => {
   return (
-    <Affix position={{ top: 32, right: 32 }}>
-      <ActionIcon size="xl" radius="xl" variant="filled" onClick={onClick}>
-        <IconAdjustments />
-      </ActionIcon>
-    </Affix>
-   );
-}
+    <ActionIcon
+      size="xl"
+      radius="xl"
+      variant="filled"
+      style={{ marginBottom: "8px" }}
+      onClick={onClick}
+    >
+      <IconAdjustments />
+    </ActionIcon>
+  );
+};
 
 export default SettingsButton;

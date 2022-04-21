@@ -1,18 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import { ActionIcon, Group, Slider, Text } from "@mantine/core";
 import {IconMinus, IconPlus} from "@tabler/icons";
 
-const BpmDisplay = ({ value, onChange }) => {
-  const [bpm, setBpm] = useState(60);
-
-  useEffect(() => {
-    setBpm(value);
-  });
-
-  useEffect(() => {
-    onChange?.(bpm)
-  }, [bpm]);
-
+const BpmDisplay = ({ bpm, setBpm }) => {
   return (
     <div className="BpmDisplay">
       <Text size="xl" align="center">

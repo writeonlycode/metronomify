@@ -3,6 +3,9 @@
   <head>
     <title>Metronomify</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <% if current_user %>
+    <meta name="current_user" content="<%= current_user.email %>">
+    <% end %>
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,8 +14,8 @@
   </head>
 
   <body>
-    <%# <p class="notice"><%= notice %1></p> %>
-    <%# <p class="alert"><%= alert %1></p> %>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
     <%= yield %>
   </body>
 </html>
