@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
-import { ActionIcon, Avatar, Menu } from "@mantine/core";
+import { ActionIcon, Avatar, Menu, Tooltip } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { IconLogout, IconUser } from "@tabler/icons";
 import { signOut } from "../../apis/users";
@@ -35,7 +35,6 @@ const UserMenu = ({ currentUser }) => {
             size="xl"
             radius="xl"
             variant="filled"
-            style={{ marginBottom: "8px" }}
           >
             <IconUser />
           </ActionIcon>

@@ -1,8 +1,8 @@
 import React from "react";
-import { Temporal } from "@js-temporal/polyfill";
-import { ActionIcon, Affix } from "@mantine/core";
-import { IconCopy } from "@tabler/icons";
+import { ActionIcon, Tooltip } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
+import { IconCopy } from "@tabler/icons";
+import { Temporal } from "@js-temporal/polyfill";
 
 const CopyButton = ({ bpm }) => {
   const handleClick = () => {
@@ -24,9 +24,21 @@ const CopyButton = ({ bpm }) => {
   };
 
   return (
-    <ActionIcon size="xl" radius="xl" variant="filled" style={{ marginBottom: "8px" }} onClick={handleClick}>
-      <IconCopy />
-    </ActionIcon>
+    <Tooltip
+      label="Copy date and BPM to the clipboard"
+      position="left"
+      placement="center"
+      withArrow
+    >
+      <ActionIcon
+        size="xl"
+        radius="xl"
+        variant="filled"
+        onClick={handleClick}
+      >
+        <IconCopy />
+      </ActionIcon>
+    </Tooltip>
   );
 };
 

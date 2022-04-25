@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-import { Button, Space, Checkbox, Affix } from "@mantine/core";
-import { useHotkeys, useToggle, useWindowEvent } from "@mantine/hooks";
+import { Affix } from "@mantine/core";
+import { useToggle } from "@mantine/hooks";
 
 import MainContainer from "../MainContainer";
-import BpmDisplay from "../BpmDisplay/BpmDisplay";
-import BeatsDisplay from "../BeatsDisplay/BeatsDisplay";
-import TimerDisplay from "../TimerDisplay";
 import UserButton from "../Users/UserButton";
 import SettingsButton from "../SettingsButton";
 import SettingsDrawer from "../SettingsDrawer";
@@ -39,7 +36,7 @@ const App = () => {
 
   return (
     <MainContainer>
-      <Affix position={{ top: 32, right: 32 }}>
+      <Affix position={{ top: 32, right: 32 }} style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
         <UserButton />
         <SettingsButton onClick={() => setSettingsOpened(true)} />
         <CopyButton bpm={metronome.bpm} />

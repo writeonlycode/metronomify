@@ -1,5 +1,5 @@
 import React from "react";
-import { ActionIcon } from "@mantine/core";
+import { ActionIcon, Tooltip } from "@mantine/core";
 import { IconAdjustments } from "@tabler/icons";
 
 const SettingsButton = ({ onClick }) => {
@@ -8,7 +8,6 @@ const SettingsButton = ({ onClick }) => {
       size="xl"
       radius="xl"
       variant="filled"
-      style={{ marginBottom: "8px" }}
       onClick={onClick}
     >
       <IconAdjustments />

@@ -19,7 +19,6 @@ const LoginRegisterMenu = ({ loading }) => {
             size="xl"
             radius="xl"
             variant="filled"
-            style={{ marginBottom: "8px" }}
           >
             <IconDotsVertical />
           </ActionIcon>
