@@ -5,12 +5,12 @@ const TimerDisplay = ({ timer }) => {
   return (
     <Text size="sm" align="center">
           {
-            timer.remaining.minutes.toLocaleString("en-US", {
+            timer?.remaining?.minutes.toLocaleString("en-US", {
               minimumIntegerDigits: 2,
               useGrouping: false,
             }) +
             ":" +
-            timer.remaining.seconds.toLocaleString("en-US", {
+            timer?.remaining?.seconds.toLocaleString("en-US", {
               minimumIntegerDigits: 2,
               useGrouping: false,
             })

@@ -67,12 +67,14 @@ const SessionsNew = () => {
         </Button>
       </form>
       <Space h="xl" />
+      {/*
       <div>
         <Anchor size="sm" href="#">Sign up</Anchor>
       </div>
       <div>
         <Anchor size="sm" href="#">Forgot your password?</Anchor>
       </div>
+      */}
     </div>
   );
 };

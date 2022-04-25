@@ -1,14 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
-import {
-  Modal,
-  TextInput,
-  PasswordInput,
-  Space,
-  Button,
-  Checkbox,
-} from "@mantine/core";
-import { useForm } from "@mantine/hooks";
+import React from "react";
+import { Modal } from "@mantine/core";
 import SessionsNew from "./SessionsNew";
 
 const LoginModal = ({ opened, setOpened }) => {
