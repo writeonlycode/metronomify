@@ -8,6 +8,11 @@ export async function fetchCurrentUser() {
    },
   });
 
+  if (!response.ok) {
+    const responseJson = await response.json();
+    return Promise.reject(responseJson);
+  }
+
   const newCsrfParam = response.headers.get('X-CSRF-Param');
   const newCsrfToken = response.headers.get('X-CSRF-Token')
 
@@ -36,7 +41,6 @@ export async function signIn(data) {
     return Promise.reject(responseJson);
   }
 
-
   const newCsrfParam = response.headers.get('X-CSRF-Param');
   const newCsrfToken = response.headers.get('X-CSRF-Token')
 
@@ -58,6 +62,11 @@ export async function signOut() {
      'X-CSRF-Token': csrfToken,
    }
   });
+
+  if (!response.ok) {
+    const responseJson = await response.json();
+    return Promise.reject(responseJson);
+  }
 
   const newCsrfParam = response.headers.get('X-CSRF-Param');
   const newCsrfToken = response.headers.get('X-CSRF-Token')

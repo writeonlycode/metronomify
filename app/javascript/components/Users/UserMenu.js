@@ -1,20 +1,29 @@
 import React, { useState } from "react";
+import { useMutation, useQueryClient } from "react-query";
 import { ActionIcon, Avatar, Menu } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
 import { IconLogout, IconUser } from "@tabler/icons";
-import {signOut} from "../../apis/users";
-import {useMutation, useQueryClient} from "react-query";
+import { signOut } from "../../apis/users";
 
 const UserMenu = ({ currentUser }) => {
-  const [loginModalOpened, setLoginModalOpened] = useState(false);
-  const [registerModalOpened, setRegisterModalOpened] = useState(false);
-
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   const signOutMutation = useMutation(signOut, {
-    onSettled: () => queryClient.invalidateQueries('currentUser'),
-    onSuccess: () => { /* update csrf token*/}
+    onSettled: () => queryClient.invalidateQueries("currentUser"),
+    onSuccess: (data) => {
+      showNotification({
+        title: "Goodbye!",
+        message: "You are now logged out.",
+      });
+    },
+    onError: (data) => {
+      showNotification({
+        color: "red",
+        title: "Ops, something is wrong...",
+        message: data.error,
+      });
+    },
   });
-
 
   return (
     <>
@@ -28,10 +37,11 @@ const UserMenu = ({ currentUser }) => {
             variant="filled"
             style={{ marginBottom: "8px" }}
           >
-              <IconUser />
+            <IconUser />
           </ActionIcon>
         }
       >
+        <Menu.Label>{currentUser.data.email}</Menu.Label>
         {/*
         <Menu.Item
           onClick={() => setLoginModalOpened(true)}
@@ -44,7 +54,7 @@ const UserMenu = ({ currentUser }) => {
           onClick={() => signOutMutation.mutate()}
           icon={<IconLogout size={14} />}
         >
-              Log Out
+          Log Out
         </Menu.Item>
       </Menu>
     </>

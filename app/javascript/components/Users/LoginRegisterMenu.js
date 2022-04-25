@@ -15,7 +15,7 @@ const LoginRegisterMenu = ({ loading }) => {
         control={
           <ActionIcon
             loading={loading}
-            loaderProps={{size: "xs", variant: "dots"}}
+            loaderProps={{ size: "xs", variant: "dots" }}
             size="xl"
             radius="xl"
             variant="filled"

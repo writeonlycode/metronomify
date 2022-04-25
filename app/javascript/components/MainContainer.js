@@ -12,7 +12,7 @@ const MainContainer = ({ children }) => {
     <MantineProvider
       theme={{
         colorScheme: "dark",
-        fontFamily: "sans-serif",
+        // fontFamily: "sans-serif",
         fontSizes: { xl: 160 },
         colors: {
           // One Dark Theme: https://github.com/joshdick/onedark.vim
