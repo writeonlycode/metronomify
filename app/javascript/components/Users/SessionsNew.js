@@ -6,6 +6,7 @@ import {
   Space,
   Button,
   Checkbox,
+  Anchor,
 } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { showNotification } from "@mantine/notifications";
@@ -67,10 +68,10 @@ const SessionsNew = () => {
       </form>
       <Space h="xl" />
       <div>
-        <a href="#">Sign up</a>
+        <Anchor size="sm" href="#">Sign up</Anchor>
       </div>
       <div>
-        <a href="#">Forgot your password?</a>
+        <Anchor size="sm" href="#">Forgot your password?</Anchor>
       </div>
     </div>
   );
