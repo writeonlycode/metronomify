@@ -7,15 +7,14 @@ import MainContainer from "../MainContainer";
 import BpmDisplay from "../BpmDisplay/BpmDisplay";
 import BeatsDisplay from "../BeatsDisplay/BeatsDisplay";
 import TimerDisplay from "../TimerDisplay";
+import UserButton from "../Users/UserButton";
 import SettingsButton from "../SettingsButton";
 import SettingsDrawer from "../SettingsDrawer";
+import CopyButton from "../CopyButton";
 
 import useMetronome from "../../hooks/useMetronome/useMetronome";
 import useTimer from "../../hooks/useTimer";
 import useTone from "../../hooks/useTone";
-import CopyButton from "../CopyButton";
-import User from "../User";
-
 
 const App = () => {
   const [running, toggle] = useToggle(false, [true, false]);
@@ -71,7 +70,7 @@ const App = () => {
   return (
     <MainContainer>
       <Affix position={{ top: 32, right: 32 }}>
-        <User />
+        <UserButton />
         <SettingsButton onClick={() => setSettingsOpened(true)} />
         <CopyButton bpm={metronome.bpm} />
       </Affix>

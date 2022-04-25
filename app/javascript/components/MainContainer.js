@@ -13,7 +13,7 @@ const MainContainer = ({ children }) => {
       theme={{
         colorScheme: "dark",
         fontFamily: "sans-serif",
-        fontSizes: { xs: 2, sm: 16, md: 32, xl: 160 },
+        fontSizes: { xl: 160 },
       }}
       withGlobalStyles
     >

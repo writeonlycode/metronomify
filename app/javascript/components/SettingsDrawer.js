@@ -3,7 +3,7 @@ import { Checkbox, Drawer, Space } from "@mantine/core";
 import BeatsInput from "./BeatsInput";
 import TimerInput from "./TimerInput";
 
-const SettingsDrawer = ({ opened, setOpened, beats, setBeats, timer, emphasis, setEmphasis, running }) => {
+const SettingsDrawer = ({ opened, setOpened, beats, setBeats, timer, emphasis, setEmphasis }) => {
   return (
     <Drawer
       opened={opened}
