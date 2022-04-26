@@ -4,7 +4,7 @@ import SessionsNew from "./SessionsNew";
 
 const LoginModal = ({ opened, setOpened }) => {
   return (
-    <Modal opened={opened} onClose={() => setOpened(false)} title="Log in">
+    <Modal opened={opened} onClose={() => setOpened(false)}>
       <SessionsNew />
     </Modal>
   );

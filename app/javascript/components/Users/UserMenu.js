@@ -4,6 +4,7 @@ import { ActionIcon, Avatar, Menu, Tooltip } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { IconLogout, IconUser } from "@tabler/icons";
 import { signOut } from "../../apis/users";
+import ProfileModal from "./ProfileModal";
 
 const UserMenu = ({ currentUser }) => {
   const queryClient = useQueryClient();
@@ -25,6 +26,8 @@ const UserMenu = ({ currentUser }) => {
     },
   });
 
+  const [profileModalOpened, setProfileModalOpened] = useState(false);
+
   return (
     <>
       <Menu
@@ -41,14 +44,12 @@ const UserMenu = ({ currentUser }) => {
         }
       >
         <Menu.Label>{currentUser.data.email}</Menu.Label>
-        {/*
         <Menu.Item
-          onClick={() => setLoginModalOpened(true)}
+          onClick={() => setProfileModalOpened(true)}
           icon={<IconUser size={14} />}
         >
           Profile
         </Menu.Item>
-        */}
         <Menu.Item
           onClick={() => signOutMutation.mutate()}
           icon={<IconLogout size={14} />}
@@ -56,6 +57,11 @@ const UserMenu = ({ currentUser }) => {
           Log Out
         </Menu.Item>
       </Menu>
+      <ProfileModal
+        currentUser={currentUser}
+        opened={profileModalOpened}
+        setOpened={setProfileModalOpened}
+      />
     </>
   );
 };

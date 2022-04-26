@@ -6,7 +6,6 @@ import {
   Space,
   Button,
   Checkbox,
-  Anchor,
 } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { showNotification } from "@mantine/notifications";
@@ -15,8 +14,6 @@ import { signIn } from "../../apis/users";
 
 const SessionsNew = () => {
   const queryClient = useQueryClient();
-
-  const [error, setError] = useState(null);
 
   const signInMutation = useMutation(signIn, {
     onSettled: () => queryClient.invalidateQueries("currentUser"),
@@ -47,6 +44,7 @@ const SessionsNew = () => {
       <form onSubmit={form.onSubmit((values) => signInMutation.mutate(values))}>
         <TextInput
           required
+          disabled={signInMutation.isLoading}
           icon={<IconAt />}
           placeholder="Your email"
           type="email"
@@ -55,26 +53,18 @@ const SessionsNew = () => {
         <Space h="sm" />
         <PasswordInput
           required
+          disabled={signInMutation.isLoading}
           icon={<IconLock />}
           placeholder="Password"
           {...form.getInputProps("password")}
         />
         <Space h="xl" />
-        <Checkbox label="Remember me" />
+        <Checkbox disabled={signInMutation.isLoading} label="Remember me" />
         <Space h="xl" />
-        <Button fullWidth type="submit">
+        <Button fullWidth loading={signInMutation.isLoading} type="submit">
           Login
         </Button>
       </form>
-      <Space h="xl" />
-      {/*
-      <div>
-        <Anchor size="sm" href="#">Sign up</Anchor>
-      </div>
-      <div>
-        <Anchor size="sm" href="#">Forgot your password?</Anchor>
-      </div>
-      */}
     </div>
   );
 };

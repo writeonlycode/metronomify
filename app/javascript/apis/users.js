@@ -79,3 +79,59 @@ export async function signOut() {
 
   return response;
 }
+
+export async function signUp(data) {
+  const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+  const response = await fetch('/users', {
+    method: 'POST',
+    headers: {
+     'Content-Type': 'application/json',
+     'X-CSRF-Token': csrfToken,
+   },
+    body: JSON.stringify({user: data})
+  });
+
+  if (!response.ok) {
+    const responseJson = await response.json();
+    return Promise.reject(responseJson);
+  }
+
+  const newCsrfParam = response.headers.get('X-CSRF-Param');
+  const newCsrfToken = response.headers.get('X-CSRF-Token')
+
+  if ( newCsrfParam )
+    document.querySelector('meta[name="csrf-param"]').content = newCsrfParam;
+
+  if ( newCsrfToken )
+    document.querySelector('meta[name="csrf-token"]').content = newCsrfToken;
+
+  return response;
+}
+
+export async function updateUser(data) {
+  const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+  const response = await fetch('/users', {
+    method: 'PUT',
+    headers: {
+     'Content-Type': 'application/json',
+     'X-CSRF-Token': csrfToken,
+   },
+    body: JSON.stringify({user: data})
+  });
+
+  if (!response.ok) {
+    const responseJson = await response.json();
+    return Promise.reject(responseJson);
+  }
+
+  const newCsrfParam = response.headers.get('X-CSRF-Param');
+  const newCsrfToken = response.headers.get('X-CSRF-Token')
+
+  if ( newCsrfParam )
+    document.querySelector('meta[name="csrf-param"]').content = newCsrfParam;
+
+  if ( newCsrfToken )
+    document.querySelector('meta[name="csrf-token"]').content = newCsrfToken;
+
+  return response;
+}

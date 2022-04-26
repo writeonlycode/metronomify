@@ -30,14 +30,12 @@ const LoginRegisterMenu = ({ loading }) => {
         >
           Login
         </Menu.Item>
-        {/*
         <Menu.Item
           onClick={() => setRegisterModalOpened(true)}
           icon={<IconUserPlus size={14} />}
         >
           Register
         </Menu.Item>
-        */}
       </Menu>
       <LoginModal opened={loginModalOpened} setOpened={setLoginModalOpened} />
       <RegisterModal
