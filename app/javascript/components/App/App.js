@@ -4,22 +4,37 @@ import { Affix } from "@mantine/core";
 import { useToggle } from "@mantine/hooks";
 
 import MainContainer from "../MainContainer";
+import MainContent from "../MainContent";
 import UserButton from "../Users/UserButton";
 import SettingsButton from "../SettingsButton";
 import SettingsDrawer from "../SettingsDrawer";
 import CopyButton from "../CopyButton";
+import PasswordsEditModal from "../Users/PasswordsEditModal";
 
 import useMetronome from "../../hooks/useMetronome/useMetronome";
 import useTimer from "../../hooks/useTimer";
 import useTone from "../../hooks/useTone";
-import MainContent from "../MainContent";
+
 
 const App = () => {
-  const [running, toggle] = useToggle(false, [true, false]);
   const metronome = useMetronome({ bpm: 60, beats: 4, emphasis: true });
+  const [running, toggle] = useToggle(false, [true, false]);
 
   const tone = useTone();
   const timer = useTimer({ minutes: 5 }, () => tone.playAlarm());
+
+  const [settingsOpened, setSettingsOpened] = useState(false);
+  const [resetPasswordToken, setResetPasswordToken] = useState(null);
+
+  useEffect( () => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(urlSearchParams.entries());
+
+    if ( params.reset_password_token ) {
+      setResetPasswordToken(params.reset_password_token);
+    }
+    
+  }, []);
 
   useEffect(() => {
     if (running) {
@@ -31,8 +46,6 @@ const App = () => {
       timer.reset();
     }
   }, [running]);
-
-  const [settingsOpened, setSettingsOpened] = useState(false);
 
   return (
     <MainContainer>
@@ -59,6 +72,9 @@ const App = () => {
         emphasis={metronome.emphasis}
         setEmphasis={metronome.setEmphasis}
         running={running}
+      />
+      <PasswordsEditModal
+        resetPasswordToken={resetPasswordToken}
       />
     </MainContainer>
   );
