@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { MantineProvider } from "@mantine/styles";
 import { Container } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
+import {ModalsProvider} from "@mantine/modals";
 
 const queryClient = new QueryClient();
 
@@ -31,20 +32,22 @@ const MainContainer = ({ children }) => {
       withGlobalStyles
     >
       <NotificationsProvider position="top-center">
-        <Container
-          size="sm"
-          px="xl"
-          style={{
-            height: "100vh",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-          }}
-        >
-          <QueryClientProvider client={queryClient}>
-            {children}
-          </QueryClientProvider>
-        </Container>
+        <ModalsProvider>
+          <Container
+            size="sm"
+            px="xl"
+            style={{
+              height: "100vh",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}
+          >
+            <QueryClientProvider client={queryClient}>
+              {children}
+            </QueryClientProvider>
+          </Container>
+        </ModalsProvider>
       </NotificationsProvider>
     </MantineProvider>
   );
