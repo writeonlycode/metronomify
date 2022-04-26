@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     scope :users, defaults: { format: :json } do
-      get '/users', to: 'users/sessions#show', as: ''
+      get '', to: 'users/sessions#show', as: ''
 
       # Sessions Routes
       post '/sign_in', to: 'users/sessions#create', as: 'user_session'

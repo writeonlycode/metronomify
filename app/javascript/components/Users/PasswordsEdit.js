@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { PasswordInput, Space, Button } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
@@ -9,9 +9,12 @@ import { updatePassword } from "../../apis/users";
 const PasswordsEdit = ({ resetPasswordToken }) => {
   const queryClient = useQueryClient();
 
+  const [disabled, setDisabled] = useState(false);
+
   const updatePasswordMutation = useMutation(updatePassword, {
     onSettled: () => queryClient.invalidateQueries("currentUser"),
     onSuccess: (data) => {
+      setDisabled(true);
       showNotification({
         title: "Your password has been changed successfully.",
         message: "You will be redirected in a few seconds...",
@@ -43,21 +46,21 @@ const PasswordsEdit = ({ resetPasswordToken }) => {
         )}
       >
         <PasswordInput
-          disabled={updatePasswordMutation.isLoading}
+          disabled={updatePasswordMutation.isLoading || disabled}
           icon={<IconLock />}
           placeholder="Password (6 characters minimum)"
           {...form.getInputProps("password")}
         />
         <Space h="sm" />
         <PasswordInput
-          disabled={updatePasswordMutation.isLoading}
+          disabled={updatePasswordMutation.isLoading || disabled}
           icon={<IconLock />}
           placeholder="Password confirmation"
           {...form.getInputProps("password_confirmation")}
         />
         <Space h="xl" />
         <Button
-          loading={updatePasswordMutation.isLoading}
+          loading={updatePasswordMutation.isLoading || disabled}
           fullWidth
           type="submit"
         >
