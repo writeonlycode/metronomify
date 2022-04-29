@@ -4,7 +4,9 @@ import {IconMinus, IconPlus} from "@tabler/icons";
 
 const BpmDisplay = ({ bpm, setBpm }) => {
   return (
-    <div className="BpmDisplay">
+    <div
+      className="BpmDisplay"
+    >
       <Text size="xl" align="center">
         {bpm}
       </Text>
@@ -26,6 +28,8 @@ const BpmDisplay = ({ bpm, setBpm }) => {
           style={{ flexGrow: 1 }}
           size="xl"
           label={null}
+          // Prevents triggering the increate/decrease twice
+          onKeyDown={(e) => e.stopPropagation()}
         />
         <ActionIcon
           size="lg"
