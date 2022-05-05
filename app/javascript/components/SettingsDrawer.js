@@ -12,6 +12,7 @@ const SettingsDrawer = ({ opened, setOpened, beats, setBeats, timer, emphasis, s
       padding="xl"
       size="xl"
       position="right"
+      transitionDuration={500}
     >
       <Space h="2rem" />
       <BeatsInput

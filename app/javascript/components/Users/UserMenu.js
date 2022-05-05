@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { ActionIcon, Avatar, Menu, Tooltip } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
-import { IconLogout, IconUser } from "@tabler/icons";
+import { IconDashboard, IconLogout, IconUser } from "@tabler/icons";
 import { signOut } from "../../apis/users";
 import ProfileModal from "./ProfileModal";
+import DrawerDashboard from "../Dashboard/DrawerDashboard";
 
 const UserMenu = ({ currentUser }) => {
   const queryClient = useQueryClient();
@@ -26,6 +27,7 @@ const UserMenu = ({ currentUser }) => {
     },
   });
 
+  const [dashboardModalOpened, setDashboardModalOpened] = useState(false);
   const [profileModalOpened, setProfileModalOpened] = useState(false);
 
   return (
@@ -45,6 +47,12 @@ const UserMenu = ({ currentUser }) => {
       >
         <Menu.Label>{currentUser.data.email}</Menu.Label>
         <Menu.Item
+          onClick={() => setDashboardModalOpened(true)}
+          icon={<IconDashboard size={14} />}
+        >
+          Dashboard
+        </Menu.Item>
+        <Menu.Item
           onClick={() => setProfileModalOpened(true)}
           icon={<IconUser size={14} />}
         >
@@ -57,6 +65,10 @@ const UserMenu = ({ currentUser }) => {
           Log Out
         </Menu.Item>
       </Menu>
+      <DrawerDashboard
+        opened={dashboardModalOpened}
+        setOpened={setDashboardModalOpened}
+      />
       <ProfileModal
         currentUser={currentUser}
         opened={profileModalOpened}

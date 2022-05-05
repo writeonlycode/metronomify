@@ -28,9 +28,10 @@ Rails.application.routes.draw do
 
   # The calls to the api/ are matched below.
   # If nothing is matched, return 404.
-  # scope 'api' do
-  #   get '*path', to: proc { [404, {}, ['']] }
-  # end
+  scope :api, defaults: { format: 'json' } do
+    resources :time_entries, only: %i[index show create update destroy]
+    get '*path', to: proc { [404, {}, ['']] }
+  end
 
   # Everything else gets redirected to the React entry point.
   get '*path', to: 'static_pages#index'

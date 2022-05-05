@@ -1,12 +1,10 @@
 import React from "react";
 import { ActionIcon, Group, Slider, Text } from "@mantine/core";
-import {IconMinus, IconPlus} from "@tabler/icons";
+import { IconMinus, IconPlus } from "@tabler/icons";
 
 const BpmDisplay = ({ bpm, setBpm }) => {
   return (
-    <div
-      className="BpmDisplay"
-    >
+    <div className="BpmDisplay">
       <Text size="xl" align="center">
         {bpm}
       </Text>
@@ -29,7 +27,10 @@ const BpmDisplay = ({ bpm, setBpm }) => {
           size="xl"
           label={null}
           // Prevents triggering the increate/decrease twice
-          onKeyDown={(e) => e.stopPropagation()}
+          onKeyDown={(e) => {
+            if ( e.type === "keydown" && (e.code === "ArrowLeft" || e.code === "ArrowRight") )
+              e.stopPropagation();
+          }}
         />
         <ActionIcon
           size="lg"
