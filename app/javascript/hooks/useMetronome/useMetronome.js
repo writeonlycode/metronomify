@@ -33,7 +33,15 @@ function useMetronome({ bpm, beats, emphasis }) {
     metronome?.stop()
   }
 
-  return {start, stop, bpm: _bpm, setBpm, beat: _beat, setBeat, beats: _beats, setBeats, emphasis: _emphasis, setEmphasis};
+  const mute = () => {
+    metronome?.mute()
+  }
+
+  const unmute = () => {
+    metronome?.unmute()
+  }
+
+  return {start, stop, mute, unmute, bpm: _bpm, setBpm, beat: _beat, setBeat, beats: _beats, setBeats, emphasis: _emphasis, setEmphasis};
 }
 
 export default useMetronome;

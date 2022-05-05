@@ -3,7 +3,7 @@ import { Checkbox, Drawer, Space } from "@mantine/core";
 import BeatsInput from "./BeatsInput";
 import TimerInput from "./TimerInput";
 
-const SettingsDrawer = ({ opened, setOpened, beats, setBeats, timer, emphasis, setEmphasis }) => {
+const SettingsDrawer = ({ opened, setOpened, beats, setBeats, timer, emphasis, setEmphasis, muted, setMuted }) => {
   return (
     <Drawer
       opened={opened}
@@ -41,6 +41,20 @@ const SettingsDrawer = ({ opened, setOpened, beats, setBeats, timer, emphasis, s
         }}
         checked={emphasis}
         onChange={(e) => setEmphasis(e.currentTarget.checked)}
+      />
+      <Checkbox
+        label="Mute Metronome"
+        styles={{
+          root: {
+            flexDirection: "row-reverse",
+            justifyContent: "space-between",
+            height: "36px"
+          },
+          label: { paddingLeft: 0, textTransform: "uppercase", fontSize: "14px" },
+          input: { cursor: "pointer" },
+        }}
+        checked={muted}
+        onChange={(e) => setMuted(e.currentTarget.checked)}
       />
     </Drawer>
   );

@@ -7,6 +7,7 @@ class Metronome {
     this.stressFirstBeat = stressFirstBeat;
 
     this.isRunning = false;
+    this.muted = false;
 
     this.currentBeat = 1;
     this.beatCallback = beatCallback;
@@ -61,6 +62,14 @@ class Metronome {
     this.currentBeat = 1;
     this.isRunning = false;
     Tone.Transport.stop();
+  }
+
+  mute() {
+    this.toneVolume.mute = true;
+  }
+
+  unmute() {
+    this.toneVolume.mute = false;
   }
 
   increaseBpm() {

@@ -19,6 +19,7 @@ import useTone from "../../hooks/useTone";
 const App = () => {
   const metronome = useMetronome({ bpm: 60, beats: 4, emphasis: true });
   const [running, toggle] = useToggle(false, [true, false]);
+  const [muted, setMuted] = useState(false);
 
   const tone = useTone();
   const timer = useTimer({ minutes: 5 }, () => tone.playAlarm());
@@ -47,6 +48,14 @@ const App = () => {
     }
   }, [running]);
 
+  useEffect( () => {
+    if (muted) {
+      metronome.mute();
+    } else {
+      metronome.unmute();
+    }
+  }, [muted] )
+
   return (
     <MainContainer>
       <Affix position={{ top: 32, right: 32 }} style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
@@ -72,6 +81,8 @@ const App = () => {
         emphasis={metronome.emphasis}
         setEmphasis={metronome.setEmphasis}
         running={running}
+        muted={muted}
+        setMuted={setMuted}
       />
       <PasswordsEditModal
         resetPasswordToken={resetPasswordToken}
