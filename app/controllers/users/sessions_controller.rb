@@ -1,20 +1,23 @@
 # frozen_string_literal: true
 
-class Users::SessionsController < Devise::SessionsController
-  before_action :set_csrf_headers, only: [:show, :create, :destroy]
+module Users
+  # Process the requests to sign in, sign out and show current user.
+  class SessionsController < Devise::SessionsController
+    before_action :set_csrf_headers, only: %i[show create destroy]
 
-  clear_respond_to
-  respond_to :json
+    clear_respond_to
+    respond_to :json
 
-  def show
-    @user = current_user
-    render json: @user
-  end
+    def show
+      @user = current_user
+      render json: @user
+    end
 
-  protected
+    protected
 
-  def set_csrf_headers
-    response.headers['X-CSRF-Param'] = request_forgery_protection_token
-    response.headers['X-CSRF-Token'] = form_authenticity_token
+    def set_csrf_headers
+      response.headers['X-CSRF-Param'] = request_forgery_protection_token
+      response.headers['X-CSRF-Token'] = form_authenticity_token
+    end
   end
 end

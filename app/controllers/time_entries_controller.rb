@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Process the requests related to CRUD time entries.
 class TimeEntriesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_time_entry, only: %i[show update destroy]

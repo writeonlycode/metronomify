@@ -14,7 +14,7 @@ Rails.application.routes.draw do
       patch '', to: 'users/registrations#update', as: 'user_registration'
       put '', to: 'users/registrations#update', as: ''
       delete '', to: 'users/registrations#destroy', as: ''
-      get '/cancel', to: 'devise/registrations#cancel', as: 'cancel_user_registration'
+      get '/cancel', to: 'users/registrations#cancel', as: 'cancel_user_registration'
 
       # Passwords Routes
       post '/password', to: 'users/passwords#create', as: ''

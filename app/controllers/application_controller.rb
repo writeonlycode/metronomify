@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Serves as base for the other controllers.
 class ApplicationController < ActionController::Base
   # before_action :throttle
   # after_action :flash_to_http_header
