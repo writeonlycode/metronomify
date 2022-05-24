@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Models the time_entries database.
 class TimeEntry < ApplicationRecord
   before_validation :ensure_ended_at, :ensure_lasted_for
 
