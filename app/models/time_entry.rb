@@ -1,6 +1,7 @@
 class TimeEntry < ApplicationRecord
   before_validation :ensure_ended_at, :ensure_lasted_for
 
+  validates :started_at, presence: true
   validates :ended_at, presence: true
   validates :lasted_for, presence: true
 

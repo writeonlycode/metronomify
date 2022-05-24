@@ -1,12 +1,9 @@
 import React from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
 
 import { MantineProvider } from "@mantine/styles";
 import { Container } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
 import {ModalsProvider} from "@mantine/modals";
-
-const queryClient = new QueryClient();
 
 const MainContainer = ({ children }) => {
   return (
@@ -43,9 +40,7 @@ const MainContainer = ({ children }) => {
               justifyContent: "center",
             }}
           >
-            <QueryClientProvider client={queryClient}>
               {children}
-            </QueryClientProvider>
           </Container>
         </ModalsProvider>
       </NotificationsProvider>

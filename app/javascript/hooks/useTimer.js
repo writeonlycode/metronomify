@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
 import { Temporal } from "@js-temporal/polyfill";
+import dayjs from 'dayjs';
+
+
+import useTone from "./useTone";
 
 const useTimer = (expiryTimestamp, onExpiry) => {
   const [running, setRunning] = useState(false);
@@ -11,9 +15,13 @@ const useTimer = (expiryTimestamp, onExpiry) => {
     Temporal.Duration.from(expiryTimestamp)
   );
 
+  const [startedAtDate, setStartedAtDate] = useState(null);
+  const [endedAtDate, setEndedAtDate] = useState(null);
+
   const [intervalID, setIntervalID] = useState(null);
 
   const start = () => {
+    setStartedAtDate(new Date().toISOString());
     setRunning(true);
   };
 
@@ -42,10 +50,14 @@ const useTimer = (expiryTimestamp, onExpiry) => {
     }
   }, [initial]);
 
+  const tone = useTone();
+
   useEffect(() => {
-    if (remaining.sign <= 0) {
+    if (running && remaining.sign <= 0) {
+      const values = { started_at: startedAtDate, lasted_for: initial.toString() };
+      onExpiry(values);
+      tone.playAlarm();
       stop();
-      onExpiry();
     }
   }, [remaining]);
 

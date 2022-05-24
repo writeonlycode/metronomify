@@ -3,7 +3,7 @@ import { Checkbox, Drawer, Space } from "@mantine/core";
 import BeatsInput from "./BeatsInput";
 import TimerInput from "./TimerInput";
 
-const SettingsDrawer = ({ opened, setOpened, beats, setBeats, timer, emphasis, setEmphasis, muted, setMuted }) => {
+const SettingsDrawer = ({ opened, setOpened, beats, setBeats, timer, emphasis, setEmphasis, muted, setMuted, timerEnabled, setTimerEnabled }) => {
   return (
     <Drawer
       opened={opened}
@@ -26,6 +26,20 @@ const SettingsDrawer = ({ opened, setOpened, beats, setBeats, timer, emphasis, s
         timer={timer}
         // value={{minutes: timer.minutes, seconds: timer.seconds}}
         // onChange={(value) => setTimer(value)}
+      />
+      <Checkbox
+        label="Enable Timer"
+        styles={{
+          root: {
+            flexDirection: "row-reverse",
+            justifyContent: "space-between",
+            height: "36px"
+          },
+          label: { paddingLeft: 0, textTransform: "uppercase", fontSize: "14px" },
+          input: { cursor: "pointer" },
+        }}
+        checked={timerEnabled}
+        onChange={(e) => setTimerEnabled(e.currentTarget.checked)}
       />
       <Space h="1rem" />
       <Checkbox

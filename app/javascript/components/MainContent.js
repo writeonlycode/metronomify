@@ -7,13 +7,14 @@ import BpmDisplay from "./BpmDisplay/BpmDisplay";
 import BeatsDisplay from "./BeatsDisplay/BeatsDisplay";
 import TimerDisplay from "./TimerDisplay";
 
-const MainContent = ({bpm, setBpm, toggle, beats, beat, timer, running}) => {
+const MainContent = ({bpm, setBpm, toggle, beats, beat, timer, running, muted, setMuted}) => {
   useHotkeys([
     ['ArrowRight', () => setBpm((prevCount) => prevCount + 1)],
     ['ArrowLeft', () => setBpm((prevCount) => prevCount - 1)],
     ['PageUp', () => setBpm((prevCount) => prevCount + 10)],
     ['PageDown', () => setBpm((prevCount) => prevCount - 10)],
     ['Space', () => toggle()],
+    ['M', () => setMuted((prevState) => !prevState)],
   ]);
 
   return (

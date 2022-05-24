@@ -1,4 +1,5 @@
 class TimeEntriesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_time_entry, only: %i[show update destroy]
 
   # GET /time_entries
@@ -15,10 +16,6 @@ class TimeEntriesController < ApplicationController
   # POST /time_entries
   # POST /time_entries.json
   def create
-    # cannot have ended_at and lasted_for simultaneously
-    # use model validations and database constraints?
-    # if it has ended_at, calculate lasted for value
-    # if it has lasted_for, calculate ended_at value
     @time_entry = current_user.time_entries.new(time_entry_params)
 
     if @time_entry.save
@@ -31,10 +28,6 @@ class TimeEntriesController < ApplicationController
   # PATCH/PUT /time_entries/1
   # PATCH/PUT /time_entries/1.json
   def update
-    # cannot have ended_at and lasted_for simultaneously
-    # use model validations and database constraints?
-    # if it has ended_at, calculate lasted for value
-    # if it has lasted_for, calculate ended_at value
     if @time_entry.update(time_entry_params)
       render :show, status: :ok, location: @time_entry
     else
@@ -52,7 +45,7 @@ class TimeEntriesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_time_entry
-    @time_entry = TimeEntry.find(params[:id])
+    @time_entry = current_user.time_entries.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
