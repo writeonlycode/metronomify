@@ -1,16 +1,15 @@
 // Entry point for the build script in your package.json
 import React from "react";
 import ReactDOM from "react-dom";
-import {QueryClient, QueryClientProvider} from "react-query";
-import App from "./components/App/App";
 
-const queryClient = new QueryClient();
+import Providers from "./components/Providers";
+import App from "./components/App";
 
 document.addEventListener("DOMContentLoaded", () => {
   ReactDOM.render(
-    <QueryClientProvider client={queryClient}>
+    <Providers>
       <App />
-    </QueryClientProvider>,
+    </Providers>,
     document.body.appendChild(document.createElement("div"))
   );
 });
