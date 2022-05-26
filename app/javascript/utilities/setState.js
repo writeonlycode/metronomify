@@ -1,3 +1,0 @@
-function setState(setStateFunction, newValue) {
-
-}
