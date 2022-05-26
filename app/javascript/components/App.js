@@ -1,26 +1,52 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
-import { useToggle } from "@mantine/hooks";
+import { useMutation, useQueryClient } from "react-query";
+import { createTimeEntry } from "../apis/timeEntries";
+
+import { Button, Space, Text } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 
 import MenuMain from "./Menu/MenuMain";
-import MainContent from "./MainContent";
-import SettingsDrawer from "./SettingsDrawer";
+
+import DisplayBpm from "./Display/DisplayBpm";
+import DisplayBeats from "./Display/DisplayBeats";
+
 import PasswordsEditModal from "./Users/PasswordsEditModal";
 
-import useMetronome from "../hooks/useMetronome/useMetronome";
+import useCustomHotkeys from "../hooks/useCustomHotkeys";
+import useMetronome from "../hooks/useMetronome";
 import useTimer from "../hooks/useTimer";
 
-import { createTimeEntry } from "../apis/timeEntries";
+import { SettingsMetronomeContext, SettingsPomodoroContext } from "./Providers";
 
 const App = () => {
-  const metronome = useMetronome({ bpm: 60, beats: 4, emphasis: true });
-  const [running, toggle] = useToggle(false, [true, false]);
-  const [muted, setMuted] = useState(false);
+  const [settingsMetronome, setSettingsMetronome] = useContext(
+    SettingsMetronomeContext
+  );
+  const [settingsPomodoro, setSettingsPomodoro] = useContext(
+    SettingsPomodoroContext
+  );
 
-  const firstMutedEffect = useRef(true);
+  useCustomHotkeys(setSettingsMetronome, setSettingsPomodoro);
 
+  // Metronome
+  const metronome = useMetronome({
+    bpm: settingsMetronome.bpm,
+    beats: settingsMetronome.beats,
+    emphasis: settingsMetronome.emphasis,
+    muted: settingsMetronome.muted,
+    running: settingsMetronome.running,
+  });
+
+  useEffect(() => {
+    if (settingsMetronome.muted) {
+      showNotification({ title: "Metronome muted." });
+    } else {
+      showNotification({ title: "Metronome unmuted." });
+    }
+  }, [settingsMetronome.muted]);
+
+  // Timer
   const queryClient = useQueryClient();
 
   const createTimeEntryMutation = useMutation(createTimeEntry, {
@@ -41,14 +67,30 @@ const App = () => {
     },
   });
 
-  const onExpiry = (values) => {
-    createTimeEntryMutation.mutate(values);
-  };
+  const timer = useTimer(settingsPomodoro.duration.toISOString(), (values) =>
+    createTimeEntryMutation.mutate(values)
+  );
 
-  const timer = useTimer({ minutes: 5 }, onExpiry);
-  const [timerEnabled, setTimerEnabled] = useState(true);
+  useEffect(() => {
+    timer.setInitial(settingsPomodoro.duration.clone());
+  }, [settingsPomodoro.duration]);
 
-  const [settingsOpened, setSettingsOpened] = useState(false);
+  // Metronome and Timer
+  // const [running, toggleRunning] = useToggle(false, [false, true]);
+
+
+  const toggleRunning = () => setSettingsMetronome((prevValue) => ({ ...prevValue, running: !prevValue.running }));
+
+  useEffect(() => {
+    if (settingsMetronome.running && settingsPomodoro.enabled) {
+      timer.start();
+    } else {
+      timer.stop();
+      timer.reset();
+    }
+  }, [settingsMetronome.running]);
+
+  // Reset Password Token
   const [resetPasswordToken, setResetPasswordToken] = useState(null);
 
   useEffect(() => {
@@ -60,67 +102,18 @@ const App = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (running) {
-      metronome.start();
-
-      if (timerEnabled) {
-        timer.start();
-      }
-    } else {
-      metronome.stop();
-      timer.stop();
-      timer.reset();
-    }
-  }, [running]);
-
-  useEffect(() => {
-    if (muted) {
-      metronome.mute();
-      if (!firstMutedEffect.current)
-        showNotification({ title: "Metronome muted!!" });
-    } else {
-      metronome.unmute();
-      if (!firstMutedEffect.current)
-        showNotification({ title: "Metronome unmuted!!" });
-    }
-
-    firstMutedEffect.current = false;
-  }, [muted]);
-
   return (
     <>
-      <MenuMain
-        setSettingsOpened={setSettingsOpened}
-        bpm={metronome.bpm}
-        muted={muted}
-        setMuted={setMuted}
-      />
-      <MainContent
-        bpm={metronome.bpm}
-        setBpm={metronome.setBpm}
-        toggle={toggle}
-        beats={metronome.beats}
-        beat={metronome.beat}
-        timer={timer}
-        running={running}
-        muted={muted}
-        setMuted={setMuted}
-      />
-      <SettingsDrawer
-        opened={settingsOpened}
-        setOpened={() => setSettingsOpened(false)}
-        beats={metronome.beats}
-        setBeats={metronome.setBeats}
-        timer={timer}
-        emphasis={metronome.emphasis}
-        setEmphasis={metronome.setEmphasis}
-        running={running}
-        muted={muted}
-        setMuted={setMuted}
-        timerEnabled={timerEnabled}
-        setTimerEnabled={setTimerEnabled}
-      />
+      <MenuMain />
+      <DisplayBpm />
+      <Space h="2rem" />
+      <DisplayBeats total={settingsMetronome.beats} current={metronome.beat} />
+      <Space h="6rem" />
+      <Text align="center">{timer.remaining.format("HH:mm:ss")}</Text>
+      <Space h="6rem" />
+      <Button fullWidth size="lg" uppercase onClick={() => toggleRunning()}>
+        {settingsMetronome.running ? "STOP" : "START"}
+      </Button>
       <PasswordsEditModal resetPasswordToken={resetPasswordToken} />
     </>
   );

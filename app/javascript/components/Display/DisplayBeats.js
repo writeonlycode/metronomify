@@ -1,7 +1,7 @@
 import React from "react";
 import { Pagination } from "@mantine/core";
 
-const BeatsDisplay = ({ total, current }) => {
+const DisplayBeats = ({ total, current }) => {
   return (
     <Pagination
       total={total}
@@ -16,4 +16,4 @@ const BeatsDisplay = ({ total, current }) => {
   );
 };
 
-export default BeatsDisplay;
+export default DisplayBeats;

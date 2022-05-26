@@ -1,19 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ActionIcon, Tooltip } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { IconCopy } from "@tabler/icons";
-import { Temporal } from "@js-temporal/polyfill";
 
-const CopyButton = ({ bpm }) => {
+import { SettingsMetronomeContext } from "../Providers";
+
+const ButtonCopy = () => {
+  const [settingsMetronome, setSettingsMetronome] = useContext(
+    SettingsMetronomeContext
+  );
+
   const handleClick = () => {
-    const nowText = Temporal.Now.plainDateISO().toLocaleString("en-US", {
+    const clipboardText = `${new Date().toLocaleDateString("en-US", {
       weekday: "long",
       year: "numeric",
       month: "long",
       day: "numeric",
-    });
-
-    const clipboardText = `${nowText}\n${bpm} bpm`;
+    })}\n${settingsMetronome.bpm} bpm`;
 
     navigator.clipboard.writeText(clipboardText).then(() => {
       showNotification({
@@ -30,16 +33,11 @@ const CopyButton = ({ bpm }) => {
       placement="center"
       withArrow
     >
-      <ActionIcon
-        size="xl"
-        radius="xl"
-        variant="filled"
-        onClick={handleClick}
-      >
+      <ActionIcon size="xl" radius="xl" variant="filled" onClick={handleClick}>
         <IconCopy />
       </ActionIcon>
     </Tooltip>
   );
 };
 
-export default CopyButton;
+export default ButtonCopy;

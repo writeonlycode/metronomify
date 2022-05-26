@@ -1,4 +1,4 @@
-import React from "react";
+import React, {createContext, useEffect, useState} from "react";
 
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -7,8 +7,19 @@ import { NotificationsProvider } from "@mantine/notifications";
 import { MantineProvider } from "@mantine/styles";
 import { ModalsProvider } from "@mantine/modals";
 
+import dayjs from 'dayjs'
+import duration from 'dayjs/plugin/duration'
+dayjs.extend(duration);
+
+export const SettingsMetronomeContext = createContext();
+export const SettingsPomodoroContext = createContext();
+
+const queryClient = new QueryClient();
+
 const Providers = ({ children }) => {
-  const queryClient = new QueryClient();
+  const [settingsMetronome, setSettingsMetronome] = useState({ bpm: 60, beats: 4, emphasis: true, muted: false, running: false });
+  const [settingsPomodoro, setSettingsPomodoro] = useState({ duration: dayjs.duration(30000), enabled: true });
+
   const theme = {
     colorScheme: "dark",
     fontFamily: "Open Sans",
@@ -29,26 +40,30 @@ const Providers = ({ children }) => {
   };
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <MantineProvider theme={theme} withGlobalStyles>
-        <NotificationsProvider position="top-center">
-          <ModalsProvider>
-            <Container
-              size="sm"
-              px="xl"
-              style={{
-                height: "100vh",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-              }}
-            >
-              {children}
-            </Container>
-          </ModalsProvider>
-        </NotificationsProvider>
-      </MantineProvider>
-    </QueryClientProvider>
+    <SettingsMetronomeContext.Provider value={[settingsMetronome, setSettingsMetronome]}>
+    <SettingsPomodoroContext.Provider value={[settingsPomodoro, setSettingsPomodoro]}>
+      <QueryClientProvider client={queryClient}>
+        <MantineProvider theme={theme} withGlobalStyles>
+          <NotificationsProvider position="top-center">
+            <ModalsProvider>
+              <Container
+                size="sm"
+                px="xl"
+                style={{
+                  height: "100vh",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
+                {children}
+              </Container>
+            </ModalsProvider>
+          </NotificationsProvider>
+        </MantineProvider>
+      </QueryClientProvider>
+    </SettingsPomodoroContext.Provider>
+    </SettingsMetronomeContext.Provider>
   );
 };
 

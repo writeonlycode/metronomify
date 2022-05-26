@@ -1,23 +1,17 @@
 import { useState, useEffect } from "react";
-import { Temporal } from "@js-temporal/polyfill";
-import dayjs from 'dayjs';
+import playAlarm from "../utilities/playAlarm";
 
-
-import useTone from "./useTone";
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+dayjs.extend(duration);
 
 const useTimer = (expiryTimestamp, onExpiry) => {
   const [running, setRunning] = useState(false);
 
-  const [initial, setInitial] = useState(
-    Temporal.Duration.from(expiryTimestamp)
-  );
-  const [remaining, setRemaining] = useState(
-    Temporal.Duration.from(expiryTimestamp)
-  );
+  const [initial, setInitial] = useState(dayjs.duration(expiryTimestamp));
+  const [remaining, setRemaining] = useState(dayjs.duration(expiryTimestamp));
 
   const [startedAtDate, setStartedAtDate] = useState(null);
-  const [endedAtDate, setEndedAtDate] = useState(null);
-
   const [intervalID, setIntervalID] = useState(null);
 
   const start = () => {
@@ -31,7 +25,7 @@ const useTimer = (expiryTimestamp, onExpiry) => {
   };
 
   const reset = () => {
-    setRemaining(initial);
+    setRemaining(initial.clone());
   };
 
   useEffect(() => {
@@ -45,18 +39,21 @@ const useTimer = (expiryTimestamp, onExpiry) => {
   }, [running]);
 
   useEffect(() => {
-    if (!running) {
-      reset();
-    }
-  }, [initial]);
+    setInitial(dayjs.duration(expiryTimestamp));
 
-  const tone = useTone();
+    if (!running) {
+      setRemaining(dayjs.duration(expiryTimestamp));
+    }
+  }, [expiryTimestamp]);
 
   useEffect(() => {
-    if (running && remaining.sign <= 0) {
-      const values = { started_at: startedAtDate, lasted_for: initial.toString() };
+    if (running && remaining.asSeconds() <= 0) {
+      const values = {
+        started_at: startedAtDate,
+        lasted_for: initial,
+      };
       onExpiry(values);
-      tone.playAlarm();
+      playAlarm();
       stop();
     }
   }, [remaining]);

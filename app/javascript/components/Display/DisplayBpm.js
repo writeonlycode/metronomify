@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ActionIcon, Group, Slider, Text } from "@mantine/core";
 import { IconMinus, IconPlus } from "@tabler/icons";
 
-const BpmDisplay = ({ bpm, setBpm }) => {
+import {
+  SettingsMetronomeContext,
+} from "../Providers";
+
+const DisplayBpm = ({ bpm, setBpm }) => {
+  const [settingsMetronome, setSettingsMetronome] = useContext(
+    SettingsMetronomeContext
+  );
+
   return (
     <div className="BpmDisplay">
       <Text size="xl" align="center">
-        {bpm}
+        {settingsMetronome.bpm}
       </Text>
       <Group position="center">
         <ActionIcon
@@ -14,13 +22,20 @@ const BpmDisplay = ({ bpm, setBpm }) => {
           radius="xl"
           variant="filled"
           style={{ flexGrow: 0, fontSize: "2em" }}
-          onClick={() => setBpm((prevCount) => prevCount - 1)}
+          onClick={() =>
+            setSettingsMetronome((prevValue) => ({
+              ...prevValue,
+              bpm: prevValue.bpm - 1,
+            }))
+          }
         >
           <IconMinus />
         </ActionIcon>
         <Slider
-          value={bpm}
-          onChange={setBpm}
+          value={settingsMetronome.bpm}
+          onChange={(value) =>
+            setSettingsMetronome((prevValue) => ({ ...prevValue, bpm: value }))
+          }
           min={20}
           max={240}
           style={{ flexGrow: 1 }}
@@ -28,7 +43,10 @@ const BpmDisplay = ({ bpm, setBpm }) => {
           label={null}
           // Prevents triggering the increate/decrease twice
           onKeyDown={(e) => {
-            if ( e.type === "keydown" && (e.code === "ArrowLeft" || e.code === "ArrowRight") )
+            if (
+              e.type === "keydown" &&
+              (e.code === "ArrowLeft" || e.code === "ArrowRight")
+            )
               e.stopPropagation();
           }}
         />
@@ -37,7 +55,12 @@ const BpmDisplay = ({ bpm, setBpm }) => {
           radius="xl"
           variant="filled"
           style={{ flexGrow: 0, fontSize: "2em" }}
-          onClick={() => setBpm((prevCount) => prevCount + 1)}
+          onClick={() =>
+            setSettingsMetronome((prevValue) => ({
+              ...prevValue,
+              bpm: prevValue.bpm + 1,
+            }))
+          }
         >
           <IconPlus />
         </ActionIcon>
@@ -46,4 +69,4 @@ const BpmDisplay = ({ bpm, setBpm }) => {
   );
 };
 
-export default BpmDisplay;
+export default DisplayBpm;
