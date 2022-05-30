@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import { ActionIcon, Divider, Menu } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 
-import { IconDashboard, IconLogout, IconSettings, IconUser } from "@tabler/icons";
+import {
+  IconDashboard,
+  IconLogout,
+  IconSettings,
+  IconUser,
+} from "@tabler/icons";
 
 import ModalProfile from "./ModalProfile";
 import ModalSettings from "./ModalSettings";
@@ -15,7 +20,11 @@ import DrawerDashboard from "../Dashboard/DrawerDashboard";
 import { fetchCurrentUser } from "../../apis/users";
 import { signOut } from "../../apis/users";
 
+import { SettingsApplicationContext } from "../Providers";
+
 const MenuUserSignedIn = () => {
+  const settingsApplication = useContext(SettingsApplicationContext);
+
   const currentUser = useQuery("currentUser", fetchCurrentUser);
 
   const queryClient = useQueryClient();
@@ -36,7 +45,6 @@ const MenuUserSignedIn = () => {
     },
   });
 
-  const [dashboardModalOpened, setDashboardModalOpened] = useState(false);
   const [profileModalOpened, setProfileModalOpened] = useState(false);
   const [modalSettingsOpened, setModalSettingsOpened] = useState(false);
 
@@ -57,7 +65,7 @@ const MenuUserSignedIn = () => {
       >
         <Menu.Label>{currentUser.data?.email}</Menu.Label>
         <Menu.Item
-          onClick={() => setDashboardModalOpened(true)}
+          onClick={() => settingsApplication.setDashboardOpened(true)}
           icon={<IconDashboard size={14} />}
         >
           Dashboard
@@ -83,8 +91,8 @@ const MenuUserSignedIn = () => {
         </Menu.Item>
       </Menu>
       <DrawerDashboard
-        opened={dashboardModalOpened}
-        setOpened={setDashboardModalOpened}
+        opened={settingsApplication.dashboardOpened}
+        setOpened={settingsApplication.setDashboardOpened}
       />
       <ModalProfile
         opened={profileModalOpened}

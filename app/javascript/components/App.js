@@ -17,9 +17,14 @@ import useCustomHotkeys from "../hooks/useCustomHotkeys";
 import useMetronome from "../hooks/useMetronome";
 import useTimer from "../hooks/useTimer";
 
-import { SettingsMetronomeContext, SettingsPomodoroContext } from "./Providers";
+import {
+  SettingsApplicationContext,
+  SettingsMetronomeContext,
+  SettingsPomodoroContext,
+} from "./Providers";
 
 const App = () => {
+  const settingsApplication = useContext(SettingsApplicationContext);
   const [settingsMetronome, setSettingsMetronome] = useContext(
     SettingsMetronomeContext
   );
@@ -27,7 +32,7 @@ const App = () => {
     SettingsPomodoroContext
   );
 
-  useCustomHotkeys(setSettingsMetronome, setSettingsPomodoro);
+  useCustomHotkeys(settingsApplication, setSettingsMetronome, setSettingsPomodoro);
 
   // Metronome
   const metronome = useMetronome({
@@ -78,8 +83,11 @@ const App = () => {
   // Metronome and Timer
   // const [running, toggleRunning] = useToggle(false, [false, true]);
 
-
-  const toggleRunning = () => setSettingsMetronome((prevValue) => ({ ...prevValue, running: !prevValue.running }));
+  const toggleRunning = () =>
+    setSettingsMetronome((prevValue) => ({
+      ...prevValue,
+      running: !prevValue.running,
+    }));
 
   useEffect(() => {
     if (settingsMetronome.running && settingsPomodoro.enabled) {

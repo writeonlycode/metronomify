@@ -1,5 +1,5 @@
 import React from "react";
-import { Drawer, Space, Title } from "@mantine/core";
+import { Drawer, Modal, Paper, ScrollArea, Space, Title } from "@mantine/core";
 import TimeEntriesIndex from "../TimeEntries/TimeEntriesIndex";
 import TimeEntriesCreate from "../TimeEntries/TimeEntriesCreate";
 
@@ -13,6 +13,7 @@ const DrawerDashboard = ({ opened, setOpened }) => {
       size="full"
       position="right"
       transitionDuration={500}
+      styles={{ drawer: { overflowY: "scroll" } }}
     >
       <TimeEntriesCreate />
       <Space h="lg" />

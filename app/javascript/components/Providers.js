@@ -1,4 +1,4 @@
-import React, {createContext, useEffect, useState} from "react";
+import React, {createContext, useState} from "react";
 
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -11,14 +11,17 @@ import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
 dayjs.extend(duration);
 
+export const SettingsApplicationContext = createContext();
 export const SettingsMetronomeContext = createContext();
 export const SettingsPomodoroContext = createContext();
 
 const queryClient = new QueryClient();
 
 const Providers = ({ children }) => {
+  const [dashboardOpened, setDashboardOpened] = useState(false);
+
   const [settingsMetronome, setSettingsMetronome] = useState({ bpm: 60, beats: 4, emphasis: true, muted: false, running: false });
-  const [settingsPomodoro, setSettingsPomodoro] = useState({ duration: dayjs.duration(30000), enabled: true });
+  const [settingsPomodoro, setSettingsPomodoro] = useState({ duration: dayjs.duration(3000), enabled: true });
 
   const theme = {
     colorScheme: "dark",
@@ -40,6 +43,7 @@ const Providers = ({ children }) => {
   };
 
   return (
+    <SettingsApplicationContext.Provider value={{dashboardOpened, setDashboardOpened}}>
     <SettingsMetronomeContext.Provider value={[settingsMetronome, setSettingsMetronome]}>
     <SettingsPomodoroContext.Provider value={[settingsPomodoro, setSettingsPomodoro]}>
       <QueryClientProvider client={queryClient}>
@@ -64,6 +68,7 @@ const Providers = ({ children }) => {
       </QueryClientProvider>
     </SettingsPomodoroContext.Provider>
     </SettingsMetronomeContext.Provider>
+    </SettingsApplicationContext.Provider>
   );
 };
 
