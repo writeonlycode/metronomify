@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { Button, Group, Space, Stack, TextInput } from "@mantine/core";
+import { Button, Group, LoadingOverlay, Space, Stack, TextInput } from "@mantine/core";
 import { DatePicker, TimeInput } from "@mantine/dates";
 import { useForm } from "@mantine/hooks";
 import { showNotification } from "@mantine/notifications";
@@ -64,7 +64,7 @@ const TimeEntriesEdit = ({ id }) => {
       new Date(
         startedAtDate?.getFullYear(),
         startedAtDate?.getMonth(),
-        startedAtDate?.getDay(),
+        startedAtDate?.getDate(),
         startedAtTime?.getHours(),
         startedAtTime?.getMinutes(),
         startedAtTime?.getSeconds()
@@ -76,7 +76,7 @@ const TimeEntriesEdit = ({ id }) => {
       new Date(
         endedAtDate?.getFullYear(),
         endedAtDate?.getMonth(),
-        endedAtDate?.getDay(),
+        endedAtDate?.getDate(),
         endedAtTime?.getHours(),
         endedAtTime?.getMinutes(),
         endedAtTime?.getSeconds()
@@ -89,10 +89,10 @@ const TimeEntriesEdit = ({ id }) => {
   });
 
   return (
-    <div>
+    <>
+      <LoadingOverlay visible={isLoading || updateTimeEntryMutation.isLoading} />
       <form onSubmit={onSubmitHandler}>
         <TextInput
-          loading={updateTimeEntryMutation.isLoading}
           icon={<IconLetterCase size="18px" />}
           placeholder="Description"
           {...form.getInputProps("description")}
@@ -101,14 +101,12 @@ const TimeEntriesEdit = ({ id }) => {
         <Group grow>
           <Stack>
             <DatePicker
-              loading={updateTimeEntryMutation.isLoading}
               icon={<IconCalendar size="18px" />}
               value={startedAtDate}
               onChange={setStartedAtDate}
               required
             />
             <TimeInput
-              loading={updateTimeEntryMutation.isLoading}
               icon={<IconClock size="18px" />}
               value={startedAtTime}
               onChange={setStartedAtTime}
@@ -117,14 +115,12 @@ const TimeEntriesEdit = ({ id }) => {
           </Stack>
           <Stack>
             <DatePicker
-              loading={updateTimeEntryMutation.isLoading}
               icon={<IconCalendar size="18px" />}
               value={endedAtDate}
               onChange={setEndedAtDate}
               required
             />
             <TimeInput
-              loading={updateTimeEntryMutation.isLoading}
               icon={<IconClock size="18px" />}
               value={endedAtTime}
               onChange={setEndedAtTime}
@@ -134,14 +130,13 @@ const TimeEntriesEdit = ({ id }) => {
         </Group>
         <Space h="xl" />
         <Button
-          loading={updateTimeEntryMutation.isLoading}
           fullWidth
           type="submit"
         >
           Update Time Entry
         </Button>
       </form>
-    </div>
+    </>
   );
 };
 
