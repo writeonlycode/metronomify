@@ -1,5 +1,12 @@
 import React, { useContext, useState } from "react";
-import { Checkbox, Modal, NumberInput, Stack } from "@mantine/core";
+import {
+  Text,
+  Checkbox,
+  Modal,
+  NumberInput,
+  Stack,
+  Title,
+} from "@mantine/core";
 import { TimeInput } from "@mantine/dates";
 
 import dayjs from "dayjs";
@@ -31,12 +38,12 @@ const ModalSettings = ({ opened, setOpened }) => {
 
   return (
     <Modal
-      title="Settings"
+      title={<Title>Settings</Title>}
       opened={opened}
       onClose={() => setOpened(false)}
       zIndex="100"
     >
-      <Stack style={{ marginBottom: 32 }} >
+      <Stack style={{ marginBottom: 32 }}>
         <NumberInput
           label="Beats/Bar"
           value={settingsMetronome.beats}
@@ -50,10 +57,32 @@ const ModalSettings = ({ opened, setOpened }) => {
           onChange={handleMetronomeEmphasis}
         />
       </Stack>
-      <Stack>
+      <Stack
+        sx={(theme) => ({
+          padding: "16px",
+          backgroundColor: theme.colors.dark[9],
+          borderRadius: "8px",
+        })}
+      >
+        <Text weight={700}>Pomodoro Mode</Text>
+        <Text size="sm">
+          The Pomodoro Technique is a time management method developed by
+          Francesco Cirillo in the late 1980s. It uses a timer to break work
+          into intervals, separated by short breaks.
+        </Text>
+        <Text size="sm">
+          If pomodoro mode is enabled, the metronome will start with a pomodoro
+          timer, and when the timer expires, a time entry will atomatically be
+          added to your dashboard.
+        </Text>
+        <Checkbox
+          label="Enable"
+          checked={settingsPomodoro.enabled}
+          onChange={handlePomodoroEnabled}
+        />
         <TimeInput
           withSeconds
-          label="Pomodoro Timer"
+          label="Pomodoro timer interval"
           value={
             new Date(
               0,
@@ -74,11 +103,6 @@ const ModalSettings = ({ opened, setOpened }) => {
               }),
             }))
           }
-        />
-        <Checkbox
-          label="Enable Pomodoro Timer"
-          checked={settingsPomodoro.enabled}
-          onChange={handlePomodoroEnabled}
         />
       </Stack>
     </Modal>
