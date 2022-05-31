@@ -8,7 +8,7 @@ class TimeEntriesController < ApplicationController
   # GET /time_entries
   # GET /time_entries.json
   def index
-    @time_entries = current_user.time_entries.all
+    @time_entries = current_user.time_entries.all.order(started_at: :desc)
   end
 
   # GET /time_entries/1

@@ -1,6 +1,6 @@
 import React from "react";
 import { Drawer, Modal, Paper, ScrollArea, Space, Title } from "@mantine/core";
-import TimeEntriesIndex from "../TimeEntries/TimeEntriesIndex";
+import TimeEntries from "./TimeEntries";
 import TimeEntriesCreate from "../TimeEntries/TimeEntriesCreate";
 
 const DrawerDashboard = ({ opened, setOpened }) => {
@@ -17,7 +17,7 @@ const DrawerDashboard = ({ opened, setOpened }) => {
     >
       <TimeEntriesCreate />
       <Space h="lg" />
-      <TimeEntriesIndex />
+      <TimeEntries />
     </Drawer>
   );
 };

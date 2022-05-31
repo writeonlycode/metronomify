@@ -19,7 +19,7 @@ const TimeEntriesCreate = ({ id }) => {
       new Date(
         startedAtDate?.getFullYear(),
         startedAtDate?.getMonth(),
-        startedAtDate?.getDay(),
+        startedAtDate?.getDate(),
         startedAtTime?.getHours(),
         startedAtTime?.getMinutes(),
         startedAtTime?.getSeconds(),
@@ -39,7 +39,8 @@ const TimeEntriesCreate = ({ id }) => {
         endedAtTime?.getSeconds(),
       ).toISOString()
     );
-  }, [startedAtDate, endedAtTime]);
+  }, [endedAtTime, endedAtTime]);
+
 
   const queryClient = useQueryClient();
 

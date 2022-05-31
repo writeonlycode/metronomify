@@ -1,4 +1,4 @@
-function groupBy(items) {
+function groupTimeEntriesByDay(items) {
   return items.reduce((acc, curr) => {
     if (curr.started_at) {
       const { started_at } = curr;
