@@ -33,7 +33,7 @@ const TimeEntriesCreate = ({ id }) => {
       new Date(
         endedAtDate?.getFullYear(),
         endedAtDate?.getMonth(),
-        endedAtDate?.getDay(),
+        endedAtDate?.getDate(),
         endedAtTime?.getHours(),
         endedAtTime?.getMinutes(),
         endedAtTime?.getSeconds(),
