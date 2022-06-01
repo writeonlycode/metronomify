@@ -106,7 +106,6 @@ const TimeEntriesCreate = ({ id }) => {
               })}
             >
               <DatePicker
-                icon={<IconCalendar size="18px" />}
                 value={startedAtDate}
                 onChange={setStartedAtDate}
                 inputFormat="MM/DD"
@@ -114,16 +113,17 @@ const TimeEntriesCreate = ({ id }) => {
                 clearable={false}
                 required
                 sx={(theme) => ({
-                  width: "6rem",
+                  width: "4rem",
+                  input: { textAlign: "center" },
                 })}
               />
               <TimeInput
-                icon={<IconClock size="18px" />}
                 value={startedAtTime}
                 onChange={setStartedAtTime}
                 clearable={false}
                 sx={(theme) => ({
-                  width: "6rem",
+                  width: "5rem",
+                  input: { textAlign: "center" },
                 })}
                 required
               />
@@ -136,34 +136,36 @@ const TimeEntriesCreate = ({ id }) => {
               })}
             >
               <DatePicker
-                icon={<IconCalendar size="18px" />}
                 value={endedAtDate}
                 onChange={setEndedAtDate}
                 inputFormat="MM/DD"
                 labelFormat="MM/DD"
                 clearable={false}
                 sx={(theme) => ({
-                  width: "6rem",
+                  width: "4rem",
+                  input: { textAlign: "center" },
                 })}
                 required
               />
               <TimeInput
-                icon={<IconClock size="18px" />}
                 value={endedAtTime}
                 onChange={setEndedAtTime}
                 clearable={false}
                 sx={(theme) => ({
-                  width: "6rem",
+                  width: "5rem",
+                  input: { textAlign: "center" },
                 })}
                 required
               />
             </Group>
           </Group>
-          <Button 
+          <Button
             compact
             radius="xl"
             size="lg"
-            loading={createTimeEntryMutation.isLoading} type="submit">
+            loading={createTimeEntryMutation.isLoading}
+            type="submit"
+          >
             +
           </Button>
         </Group>
