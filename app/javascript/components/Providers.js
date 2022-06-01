@@ -21,7 +21,7 @@ const Providers = ({ children }) => {
   const [dashboardOpened, setDashboardOpened] = useState(false);
 
   const [settingsMetronome, setSettingsMetronome] = useState({ bpm: 60, beats: 4, emphasis: true, muted: false, running: false });
-  const [settingsPomodoro, setSettingsPomodoro] = useState({ duration: dayjs.duration(3000), enabled: true });
+  const [settingsPomodoro, setSettingsPomodoro] = useState({ duration: dayjs.duration(300000), enabled: true });
 
   const theme = {
     colorScheme: "dark",

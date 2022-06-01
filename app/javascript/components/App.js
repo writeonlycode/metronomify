@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { createTimeEntry } from "../apis/timeEntries";
 
-import { Button, Space, Text } from "@mantine/core";
+import { Button, Space, Text, TextInput } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 
 import MenuMain from "./Menu/MenuMain";
@@ -25,6 +25,7 @@ import {
 
 const App = () => {
   const settingsApplication = useContext(SettingsApplicationContext);
+
   const [settingsMetronome, setSettingsMetronome] = useContext(
     SettingsMetronomeContext
   );
@@ -32,7 +33,13 @@ const App = () => {
     SettingsPomodoroContext
   );
 
-  useCustomHotkeys(settingsApplication, setSettingsMetronome, setSettingsPomodoro);
+  const [description, setDescription] = useState("");
+
+  useCustomHotkeys(
+    settingsApplication,
+    setSettingsMetronome,
+    setSettingsPomodoro
+  );
 
   // Metronome
   const metronome = useMetronome({
@@ -59,6 +66,7 @@ const App = () => {
       queryClient.invalidateQueries(["timeEntries"]);
     },
     onSuccess: (data) => {
+      setDescription("");
       showNotification({
         title: "The time entry has been created successfully.",
       });
@@ -73,7 +81,7 @@ const App = () => {
   });
 
   const timer = useTimer(settingsPomodoro.duration.toISOString(), (values) =>
-    createTimeEntryMutation.mutate(values)
+    createTimeEntryMutation.mutate({ ...values, description })
   );
 
   useEffect(() => {
@@ -81,8 +89,6 @@ const App = () => {
   }, [settingsPomodoro.duration]);
 
   // Metronome and Timer
-  // const [running, toggleRunning] = useToggle(false, [false, true]);
-
   const toggleRunning = () =>
     setSettingsMetronome((prevValue) => ({
       ...prevValue,
@@ -117,7 +123,22 @@ const App = () => {
       <Space h="2rem" />
       <DisplayBeats total={settingsMetronome.beats} current={metronome.beat} />
       <Space h="6rem" />
-      <Text align="center">{timer.remaining.format("HH:mm:ss")}</Text>
+      <Text
+        align="center"
+        style={{
+          marginBottom: "8px",
+        }}
+      >
+        {timer.remaining.format("HH:mm:ss")}
+      </Text>
+      <TextInput
+        placeholder="description"
+        value={description}
+        onChange={(event) => setDescription(event.currentTarget.value)}
+        styles={{
+          input: { textAlign: "center" },
+        }}
+      />
       <Space h="6rem" />
       <Button fullWidth size="lg" uppercase onClick={() => toggleRunning()}>
         {settingsMetronome.running ? "STOP" : "START"}

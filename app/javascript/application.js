@@ -5,6 +5,8 @@ import ReactDOM from "react-dom";
 import Providers from "./components/Providers";
 import App from "./components/App";
 
+import "./assets/stylesheets/fonts.css";
+
 document.addEventListener("DOMContentLoaded", () => {
   ReactDOM.render(
     <Providers>

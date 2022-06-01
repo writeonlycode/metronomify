@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
-import { Button, Group, Space, Stack, TextInput } from "@mantine/core";
+import { Button, Group, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { showNotification } from "@mantine/notifications";
-import { DatePicker, DateRangePicker, TimeInput } from "@mantine/dates";
+import { DatePicker, TimeInput } from "@mantine/dates";
 import {
   IconCalendar,
   IconClock,
@@ -159,8 +159,12 @@ const TimeEntriesCreate = ({ id }) => {
               />
             </Group>
           </Group>
-          <Button loading={createTimeEntryMutation.isLoading} type="submit">
-            <IconPlus />
+          <Button 
+            compact
+            radius="xl"
+            size="lg"
+            loading={createTimeEntryMutation.isLoading} type="submit">
+            +
           </Button>
         </Group>
       </form>
