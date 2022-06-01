@@ -19,6 +19,7 @@ const queryClient = new QueryClient();
 
 const Providers = ({ children }) => {
   const [dashboardOpened, setDashboardOpened] = useState(false);
+  const [settingsOpened, setSettingsOpened] = useState(false);
 
   const [settingsMetronome, setSettingsMetronome] = useState({ bpm: 60, beats: 4, emphasis: true, muted: false, running: false });
   const [settingsPomodoro, setSettingsPomodoro] = useState({ duration: dayjs.duration(300000), enabled: true });
@@ -43,7 +44,7 @@ const Providers = ({ children }) => {
   };
 
   return (
-    <SettingsApplicationContext.Provider value={{dashboardOpened, setDashboardOpened}}>
+    <SettingsApplicationContext.Provider value={{dashboardOpened, setDashboardOpened, settingsOpened, setSettingsOpened}}>
     <SettingsMetronomeContext.Provider value={[settingsMetronome, setSettingsMetronome]}>
     <SettingsPomodoroContext.Provider value={[settingsPomodoro, setSettingsPomodoro]}>
       <QueryClientProvider client={queryClient}>

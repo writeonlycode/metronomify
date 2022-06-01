@@ -22,6 +22,7 @@ import {
   SettingsMetronomeContext,
   SettingsPomodoroContext,
 } from "./Providers";
+import DisplayPomodoro from "./Display/DisplayPomodoro";
 
 const App = () => {
   const settingsApplication = useContext(SettingsApplicationContext);
@@ -123,22 +124,13 @@ const App = () => {
       <Space h="2rem" />
       <DisplayBeats total={settingsMetronome.beats} current={metronome.beat} />
       <Space h="6rem" />
-      <Text
-        align="center"
-        style={{
-          marginBottom: "8px",
-        }}
-      >
-        {timer.remaining.format("HH:mm:ss")}
-      </Text>
-      <TextInput
-        placeholder="description"
-        value={description}
-        onChange={(event) => setDescription(event.currentTarget.value)}
-        styles={{
-          input: { textAlign: "center" },
-        }}
-      />
+      {settingsPomodoro.enabled && (
+        <DisplayPomodoro
+          timer={timer}
+          description={description}
+          setDescription={setDescription}
+        />
+      )}
       <Space h="6rem" />
       <Button fullWidth size="lg" uppercase onClick={() => toggleRunning()}>
         {settingsMetronome.running ? "STOP" : "START"}

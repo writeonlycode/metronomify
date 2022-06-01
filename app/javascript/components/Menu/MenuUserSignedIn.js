@@ -46,7 +46,6 @@ const MenuUserSignedIn = () => {
   });
 
   const [profileModalOpened, setProfileModalOpened] = useState(false);
-  const [modalSettingsOpened, setModalSettingsOpened] = useState(false);
 
   return (
     <>
@@ -77,7 +76,7 @@ const MenuUserSignedIn = () => {
           Profile
         </Menu.Item>
         <Menu.Item
-          onClick={() => setModalSettingsOpened(true)}
+          onClick={() => settingsApplication.setSettingsOpened(true)}
           icon={<IconSettings size={14} />}
         >
           Settings
@@ -99,8 +98,8 @@ const MenuUserSignedIn = () => {
         setOpened={setProfileModalOpened}
       />
       <ModalSettings
-        opened={modalSettingsOpened}
-        setOpened={setModalSettingsOpened}
+        opened={settingsApplication.settingsOpened}
+        setOpened={settingsApplication.setSettingsOpened}
       />
     </>
   );
