@@ -10,7 +10,8 @@ export async function indexTimeEntries() {
 
   if (!response.ok) {
     const responseJson = await response.json();
-    return Promise.reject(responseJson);
+    // return Promise.reject(responseJson);
+    throw new Error(responseJson)
   }
 
   return response.json();
@@ -28,7 +29,8 @@ export async function showTimeEntry({ id }) {
 
   if (!response.ok) {
     const responseJson = await response.json();
-    return Promise.reject(responseJson);
+    // return Promise.reject(responseJson);
+    throw new Error(responseJson)
   }
 
   return response.json();
@@ -47,7 +49,8 @@ export async function createTimeEntry(data) {
 
   if (!response.ok) {
     const responseJson = await response.json();
-    return Promise.reject(responseJson);
+    // return Promise.reject(responseJson);
+    throw new Error(responseJson)
   }
 
   return response.json();
@@ -66,7 +69,8 @@ export async function updateTimeEntry(data) {
 
   if (!response.ok) {
     const responseJson = await response.json();
-    return Promise.reject(responseJson);
+    // return Promise.reject(responseJson);
+    throw new Error(responseJson)
   }
 
   return response.json();
@@ -84,7 +88,8 @@ export async function destroyTimeEntry({ id }) {
 
   if (!response.ok) {
     const responseJson = await response.json();
-    return Promise.reject(responseJson);
+    // return Promise.reject(responseJson);
+    throw new Error(responseJson)
   }
 
   return response;

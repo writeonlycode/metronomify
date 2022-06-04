@@ -1,49 +1,42 @@
 import React, { useEffect, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { Button, Group, LoadingOverlay, Space, Stack, TextInput } from "@mantine/core";
+import { useMutation, useQueryClient } from "react-query";
+import { Button, Group, Space, Stack, TextInput } from "@mantine/core";
 import { DatePicker, TimeInput } from "@mantine/dates";
 import { useForm } from "@mantine/hooks";
 import { showNotification } from "@mantine/notifications";
 import { IconCalendar, IconClock, IconLetterCase } from "@tabler/icons";
-import { updateTimeEntry, showTimeEntry } from "../../apis/timeEntries";
+import { updateTimeEntry } from "../../apis/timeEntries";
 
-const TimeEntriesEdit = ({ id }) => {
+const TimeEntriesEdit = (props) => {
   const [description, setDescription] = useState("");
   const [startedAtDate, setStartedAtDate] = useState(new Date());
   const [startedAtTime, setStartedAtTime] = useState(new Date());
   const [endedAtDate, setEndedAtDate] = useState(new Date());
   const [endedAtTime, setEndedAtTime] = useState(new Date());
 
-  const { isLoading, isError, data, error } = useQuery(
-    ["timeEntries", id],
-    () => showTimeEntry({ id })
-  );
-
   useEffect(() => {
-    data && setDescription(data.description);
-    data && setStartedAtDate(new Date(data.started_at));
-    data && setStartedAtTime(new Date(data.started_at));
-    data && setEndedAtDate(new Date(data.ended_at));
-    data && setEndedAtTime(new Date(data.ended_at));
-  }, [data]);
+    setDescription(props.description);
+    setStartedAtDate(new Date(props.started_at));
+    setStartedAtTime(new Date(props.started_at));
+    setEndedAtDate(new Date(props.ended_at));
+    setEndedAtTime(new Date(props.ended_at));
+  }, []);
 
   const queryClient = useQueryClient();
 
-  const updateTimeEntryMutation = useMutation(updateTimeEntry, {
+  const updateTimeEntryMutation = useMutation((data) => updateTimeEntry(data), {
     onSettled: () => {
       queryClient.invalidateQueries(["timeEntries"]);
-      queryClient.invalidateQueries(["timeEntries", id]);
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       showNotification({
         title: "The time entry has been updated successfully.",
       });
     },
-    onError: (errors) => {
+    onError: () => {
       showNotification({
         color: "red",
         title: "Ops, something is wrong...",
-        message: errors.join(". ").concat("."),
       });
     },
   });
@@ -85,58 +78,61 @@ const TimeEntriesEdit = ({ id }) => {
   }, [description, startedAtDate, startedAtTime, endedAtDate, endedAtTime]);
 
   const onSubmitHandler = form.onSubmit((values) => {
-    updateTimeEntryMutation.mutate({ id, ...values });
+    updateTimeEntryMutation.mutate({ id: props.id, ...values });
   });
 
   return (
-    <>
-      <LoadingOverlay visible={isLoading || updateTimeEntryMutation.isLoading} />
-      <form onSubmit={onSubmitHandler}>
-        <TextInput
-          icon={<IconLetterCase size="18px" />}
-          placeholder="Description"
-          {...form.getInputProps("description")}
-        />
-        <Space h="md" />
-        <Group grow>
-          <Stack>
-            <DatePicker
-              icon={<IconCalendar size="18px" />}
-              value={startedAtDate}
-              onChange={setStartedAtDate}
-              required
-            />
-            <TimeInput
-              icon={<IconClock size="18px" />}
-              value={startedAtTime}
-              onChange={setStartedAtTime}
-              required
-            />
-          </Stack>
-          <Stack>
-            <DatePicker
-              icon={<IconCalendar size="18px" />}
-              value={endedAtDate}
-              onChange={setEndedAtDate}
-              required
-            />
-            <TimeInput
-              icon={<IconClock size="18px" />}
-              value={endedAtTime}
-              onChange={setEndedAtTime}
-              required
-            />
-          </Stack>
-        </Group>
-        <Space h="xl" />
-        <Button
-          fullWidth
-          type="submit"
-        >
-          Update Time Entry
-        </Button>
-      </form>
-    </>
+    <form onSubmit={onSubmitHandler}>
+      <TextInput
+        icon={<IconLetterCase size="18px" />}
+        placeholder="Description"
+        disabled={updateTimeEntryMutation.isLoading}
+        {...form.getInputProps("description")}
+      />
+      <Space h="md" />
+      <Group grow>
+        <Stack>
+          <DatePicker
+            icon={<IconCalendar size="18px" />}
+            value={startedAtDate}
+            onChange={setStartedAtDate}
+            disabled={updateTimeEntryMutation.isLoading}
+            required
+          />
+          <TimeInput
+            icon={<IconClock size="18px" />}
+            value={startedAtTime}
+            onChange={setStartedAtTime}
+            disabled={updateTimeEntryMutation.isLoading}
+            required
+          />
+        </Stack>
+        <Stack>
+          <DatePicker
+            icon={<IconCalendar size="18px" />}
+            value={endedAtDate}
+            onChange={setEndedAtDate}
+            disabled={updateTimeEntryMutation.isLoading}
+            required
+          />
+          <TimeInput
+            icon={<IconClock size="18px" />}
+            value={endedAtTime}
+            onChange={setEndedAtTime}
+            disabled={updateTimeEntryMutation.isLoading}
+            required
+          />
+        </Stack>
+      </Group>
+      <Space h="xl" />
+      <Button
+        fullWidth
+        type="submit"
+        loading={updateTimeEntryMutation.isLoading}
+      >
+        Update
+      </Button>
+    </form>
   );
 };
 

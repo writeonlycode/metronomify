@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
-import { Button, Group, TextInput } from "@mantine/core";
+import {
+  ActionIcon,
+  Button,
+  Group,
+  Loader,
+  LoadingOverlay,
+  TextInput,
+} from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { showNotification } from "@mantine/notifications";
 import { DatePicker, TimeInput } from "@mantine/dates";
-import {
-  IconCalendar,
-  IconClock,
-  IconLetterCase,
-  IconPlus,
-} from "@tabler/icons";
+import { IconLetterCase, IconPlus } from "@tabler/icons";
 import { createTimeEntry } from "../../apis/timeEntries";
 
 const TimeEntriesCreate = ({ id }) => {
@@ -54,6 +56,7 @@ const TimeEntriesCreate = ({ id }) => {
       queryClient.invalidateQueries(["timeEntries", id]);
     },
     onSuccess: (data) => {
+      form.setFieldValue("description", "");
       showNotification({
         title: "The time entry has been created successfully.",
       });
@@ -77,15 +80,17 @@ const TimeEntriesCreate = ({ id }) => {
   });
 
   return (
-    <div>
-      <form
-        onSubmit={form.onSubmit((values) => {
-          createTimeEntryMutation.mutate(values);
-        })}
+    <form
+      onSubmit={form.onSubmit((values) => {
+        createTimeEntryMutation.mutate(values);
+      })}
+    >
+      <fieldset
+        style={{ border: "none" }}
+        disabled={createTimeEntryMutation.isLoading}
       >
         <Group>
           <TextInput
-            disabled={createTimeEntryMutation.isLoading}
             icon={<IconLetterCase size="18px" />}
             placeholder="Description"
             sx={(theme) => ({
@@ -159,18 +164,19 @@ const TimeEntriesCreate = ({ id }) => {
               />
             </Group>
           </Group>
-          <Button
-            compact
+          <ActionIcon
+            variant="filled"
             radius="xl"
             size="lg"
-            loading={createTimeEntryMutation.isLoading}
             type="submit"
+            color="primary"
+            loading={createTimeEntryMutation.isLoading}
           >
-            +
-          </Button>
+            <IconPlus size="16" />
+          </ActionIcon>
         </Group>
-      </form>
-    </div>
+      </fieldset>
+    </form>
   );
 };
 

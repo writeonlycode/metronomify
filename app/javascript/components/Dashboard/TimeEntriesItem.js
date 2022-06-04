@@ -70,7 +70,7 @@ const TimeEntriesItem = ({
         onClose={() => setTimeEntryEditOpened(false)}
         title="Edit"
       >
-        <TimeEntriesEdit id={id} />
+        <TimeEntriesEdit id={id} description={description} started_at={started_at} ended_at={ended_at} />
       </Modal>
     </>
   );

@@ -30,8 +30,6 @@ const TimeEntriesIndex = () => {
     indexTimeEntries
   );
 
-  useEffect(() => {}, [data]);
-
   if (isLoading) {
     return <Loader />;
   }

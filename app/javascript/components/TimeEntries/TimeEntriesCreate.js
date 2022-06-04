@@ -7,7 +7,7 @@ import { DatePicker, TimeInput } from "@mantine/dates";
 import { IconCalendar, IconClock, IconLetterCase } from "@tabler/icons";
 import { createTimeEntry } from "../../apis/timeEntries";
 
-const TimeEntriesCreate = ({ id }) => {
+const TimeEntriesCreate = () => {
   const [startedAtDate, setStartedAtDate] = useState(new Date());
   const [endedAtDate, setEndedAtDate] = useState(new Date());
   const [startedAtTime, setStartedAtTime] = useState(new Date());
@@ -22,7 +22,7 @@ const TimeEntriesCreate = ({ id }) => {
         startedAtDate?.getDate(),
         startedAtTime?.getHours(),
         startedAtTime?.getMinutes(),
-        startedAtTime?.getSeconds(),
+        startedAtTime?.getSeconds()
       ).toISOString()
     );
   }, [startedAtDate, startedAtTime]);
@@ -36,29 +36,26 @@ const TimeEntriesCreate = ({ id }) => {
         endedAtDate?.getDate(),
         endedAtTime?.getHours(),
         endedAtTime?.getMinutes(),
-        endedAtTime?.getSeconds(),
+        endedAtTime?.getSeconds()
       ).toISOString()
     );
   }, [endedAtTime, endedAtTime]);
-
 
   const queryClient = useQueryClient();
 
   const createTimeEntryMutation = useMutation(createTimeEntry, {
     onSettled: () => {
       queryClient.invalidateQueries(["timeEntries"]);
-      queryClient.invalidateQueries(["timeEntries", id]);
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       showNotification({
         title: "The time entry has been created successfully.",
       });
     },
-    onError: (errors) => {
+    onError: () => {
       showNotification({
         color: "red",
         title: "Ops, something is wrong...",
-        message: errors.join(". ").concat("."),
       });
     },
   });

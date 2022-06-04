@@ -11,18 +11,16 @@ const TimeEntriesDestroy = ({ id }) => {
   const destroyMutation = useMutation(() => destroyTimeEntry({ id }), {
     onSettled: () => {
       queryClient.invalidateQueries(["timeEntries"]);
-      queryClient.invalidateQueries(["timeEntries", id]);
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       showNotification({
         title: "The time entry has been deleted successfully.",
       });
     },
-    onError: (data) => {
+    onError: () => {
       showNotification({
         color: "red",
         title: "Ops, something is wrong...",
-        message: data.error,
       });
     },
   });
