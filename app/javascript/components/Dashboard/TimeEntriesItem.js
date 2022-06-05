@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { ActionIcon, Group, List, Modal, Text } from "@mantine/core";
-import { IconEdit, IconId } from "@tabler/icons";
+import { IconEdit } from "@tabler/icons";
 
-import TimeEntriesShow from "../TimeEntries/TimeEntriesShow";
-import TimeEntriesEdit from "../TimeEntries/TimeEntriesEdit";
-import TimeEntriesDestroy from "../TimeEntries/TimeEntriesDestroy";
+import TimeEntriesEdit from "./TimeEntriesEdit";
+import TimeEntriesDestroy from "./TimeEntriesDestroy";
 
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
@@ -17,7 +16,6 @@ const TimeEntriesItem = ({
   ended_at,
   lasted_for,
 }) => {
-  const [timeEntryShowOpened, setTimeEntryShowOpened] = useState(false);
   const [timeEntryEditOpened, setTimeEntryEditOpened] = useState(false);
 
   const style = {
@@ -48,9 +46,6 @@ const TimeEntriesItem = ({
             <Text size="sm" style={{ marginLeft: "1rem", width: "6rem" }}>
               {lasted_for && dayjs.duration(lasted_for).format("HH:mm:ss")}
             </Text>
-            <ActionIcon onClick={() => setTimeEntryShowOpened(true)}>
-              <IconId size="20px" />
-            </ActionIcon>
             <ActionIcon onClick={() => setTimeEntryEditOpened(true)}>
               <IconEdit size="20px" />
             </ActionIcon>
@@ -59,18 +54,16 @@ const TimeEntriesItem = ({
         </Group>
       </List.Item>
       <Modal
-        opened={timeEntryShowOpened}
-        onClose={() => setTimeEntryShowOpened(false)}
-        title="Details"
-      >
-        <TimeEntriesShow id={id} />
-      </Modal>
-      <Modal
         opened={timeEntryEditOpened}
         onClose={() => setTimeEntryEditOpened(false)}
         title="Edit"
       >
-        <TimeEntriesEdit id={id} description={description} started_at={started_at} ended_at={ended_at} />
+        <TimeEntriesEdit
+          id={id}
+          description={description}
+          started_at={started_at}
+          ended_at={ended_at}
+        />
       </Modal>
     </>
   );

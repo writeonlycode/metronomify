@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
+
 import { useMutation, useQueryClient } from "react-query";
-import {
-  ActionIcon,
-  Button,
-  Group,
-  Loader,
-  LoadingOverlay,
-  TextInput,
-} from "@mantine/core";
+import { createTimeEntry } from "../../apis/timeEntries";
+
+import { ActionIcon, Group, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { showNotification } from "@mantine/notifications";
 import { DatePicker, TimeInput } from "@mantine/dates";
+
 import { IconLetterCase, IconPlus } from "@tabler/icons";
-import { createTimeEntry } from "../../apis/timeEntries";
 
 const TimeEntriesCreate = ({ id }) => {
   const [startedAtDate, setStartedAtDate] = useState(new Date());
@@ -56,16 +52,17 @@ const TimeEntriesCreate = ({ id }) => {
       queryClient.invalidateQueries(["timeEntries", id]);
     },
     onSuccess: (data) => {
+      console.log(JSON.parse(JSON.stringify(data)));
       form.setFieldValue("description", "");
       showNotification({
         title: "The time entry has been created successfully.",
       });
     },
     onError: (errors) => {
+      console.log(JSON.parse(JSON.stringify(errors)));
       showNotification({
         color: "red",
         title: "Ops, something is wrong...",
-        message: errors.join(". ").concat("."),
       });
     },
   });
@@ -84,98 +81,81 @@ const TimeEntriesCreate = ({ id }) => {
       onSubmit={form.onSubmit((values) => {
         createTimeEntryMutation.mutate(values);
       })}
+      style={{ display: "block" }}
     >
-      <fieldset
-        style={{ border: "none" }}
-        disabled={createTimeEntryMutation.isLoading}
-      >
-        <Group>
-          <TextInput
-            icon={<IconLetterCase size="18px" />}
-            placeholder="Description"
-            sx={(theme) => ({
-              flexGrow: 1,
-            })}
-            {...form.getInputProps("description")}
-          />
+      <Group>
+        <TextInput
+          icon={<IconLetterCase size="18px" />}
+          placeholder="Description"
+          style={{ flexGrow: 1 }}
+          disabled={createTimeEntryMutation.isLoading}
+          {...form.getInputProps("description")}
+        />
+        <Group styles={{ gap: 4 }}>
           <Group
             sx={(theme) => ({
-              gap: 4,
+              backgroundColor: theme.colors.dark[5],
+              borderRadius: "8px",
+              gap: 0,
             })}
           >
-            <Group
-              sx={(theme) => ({
-                backgroundColor: theme.colors.dark[5],
-                borderRadius: "8px",
-                gap: 0,
-              })}
-            >
-              <DatePicker
-                value={startedAtDate}
-                onChange={setStartedAtDate}
-                inputFormat="MM/DD"
-                labelFormat="MM/DD"
-                clearable={false}
-                required
-                sx={(theme) => ({
-                  width: "4rem",
-                  input: { textAlign: "center" },
-                })}
-              />
-              <TimeInput
-                value={startedAtTime}
-                onChange={setStartedAtTime}
-                clearable={false}
-                sx={(theme) => ({
-                  width: "5rem",
-                  input: { textAlign: "center" },
-                })}
-                required
-              />
-            </Group>
-            <Group
-              sx={(theme) => ({
-                backgroundColor: theme.colors.dark[5],
-                borderRadius: "8px",
-                gap: 0,
-              })}
-            >
-              <DatePicker
-                value={endedAtDate}
-                onChange={setEndedAtDate}
-                inputFormat="MM/DD"
-                labelFormat="MM/DD"
-                clearable={false}
-                sx={(theme) => ({
-                  width: "4rem",
-                  input: { textAlign: "center" },
-                })}
-                required
-              />
-              <TimeInput
-                value={endedAtTime}
-                onChange={setEndedAtTime}
-                clearable={false}
-                sx={(theme) => ({
-                  width: "5rem",
-                  input: { textAlign: "center" },
-                })}
-                required
-              />
-            </Group>
+            <DatePicker
+              value={startedAtDate}
+              onChange={setStartedAtDate}
+              inputFormat="MM/DD"
+              labelFormat="MM/DD"
+              clearable={false}
+              style={{ width: "4rem", input: { textAlign: "center" } }}
+              disabled={createTimeEntryMutation.isLoading}
+              required
+            />
+            <TimeInput
+              value={startedAtTime}
+              onChange={setStartedAtTime}
+              clearable={false}
+              style={{ width: "5rem", input: { textAlign: "center" } }}
+              disabled={createTimeEntryMutation.isLoading}
+              required
+            />
           </Group>
-          <ActionIcon
-            variant="filled"
-            radius="xl"
-            size="lg"
-            type="submit"
-            color="primary"
-            loading={createTimeEntryMutation.isLoading}
+          <Group
+            sx={(theme) => ({
+              backgroundColor: theme.colors.dark[5],
+              borderRadius: "8px",
+              gap: 0,
+            })}
           >
-            <IconPlus size="16" />
-          </ActionIcon>
+            <DatePicker
+              value={endedAtDate}
+              onChange={setEndedAtDate}
+              inputFormat="MM/DD"
+              labelFormat="MM/DD"
+              clearable={false}
+              style={{ width: "4rem", input: { textAlign: "center" } }}
+              disabled={createTimeEntryMutation.isLoading}
+              required
+            />
+            <TimeInput
+              value={endedAtTime}
+              onChange={setEndedAtTime}
+              clearable={false}
+              style={{ width: "5rem", input: { textAlign: "center" } }}
+              disabled={createTimeEntryMutation.isLoading}
+              required
+            />
+          </Group>
         </Group>
-      </fieldset>
+        <ActionIcon
+          variant="filled"
+          radius="xl"
+          size="lg"
+          type="submit"
+          color="primary"
+          loading={createTimeEntryMutation.isLoading}
+        >
+          <IconPlus size="16" />
+        </ActionIcon>
+      </Group>
     </form>
   );
 };

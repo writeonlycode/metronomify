@@ -1,5 +1,5 @@
 import React from "react";
-import { List, Paper, Title } from "@mantine/core";
+import { List, Title } from "@mantine/core";
 import TimeEntriesItem from "./TimeEntriesItem";
 
 import dayjs from "dayjs";
