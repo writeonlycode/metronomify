@@ -1,6 +1,6 @@
-export async function indexTimeEntries() {
+export async function indexTimeEntries(startedAt, endedAt) {
   const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
-  const response = await fetch('api/time_entries/', {
+  const response = await fetch(`api/time_entries?started_at=${startedAt}&ended_at=${endedAt}`, {
     method: 'GET',
     headers: {
      'Content-Type': 'application/json',

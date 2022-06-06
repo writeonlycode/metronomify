@@ -8,7 +8,11 @@ class TimeEntriesController < ApplicationController
   # GET /time_entries
   # GET /time_entries.json
   def index
-    @time_entries = current_user.time_entries.all.order(started_at: :desc)
+    if params[:started_at] && params[:ended_at]
+      @time_entries = current_user.time_entries.where(started_at: params[:started_at]..params[:ended_at]).order(started_at: :desc)
+    else
+      @time_entries = current_user.time_entries.all.order(started_at: :desc)
+    end
   end
 
   # GET /time_entries/1
