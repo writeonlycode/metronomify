@@ -13,6 +13,7 @@ const TimeEntriesGroup = ({ title, entries }) => {
       started_at={element.started_at}
       ended_at={element.ended_at}
       lasted_for={element.lasted_for}
+      bpm={element.bpm}
     />
   ));
   return (

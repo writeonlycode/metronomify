@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { useMutation, useQueryClient } from "react-query";
 import { createTimeEntry } from "../apis/timeEntries";
 
-import { Button, Space, Text, TextInput } from "@mantine/core";
+import { Button, Space } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 
 import MenuMain from "./Menu/MenuMain";
@@ -82,7 +82,11 @@ const App = () => {
   });
 
   const timer = useTimer(settingsPomodoro.duration.toISOString(), (values) =>
-    createTimeEntryMutation.mutate({ ...values, description })
+    createTimeEntryMutation.mutate({
+      ...values,
+      description,
+      bpm: settingsMetronome.bpm,
+    })
   );
 
   useEffect(() => {

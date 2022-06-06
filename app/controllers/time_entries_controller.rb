@@ -57,6 +57,6 @@ class TimeEntriesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def time_entry_params
-    params.require(:time_entry).permit(:description, :started_at, :ended_at, :lasted_for)
+    params.require(:time_entry).permit(:description, :started_at, :ended_at, :lasted_for, :bpm)
   end
 end

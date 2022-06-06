@@ -15,6 +15,7 @@ const TimeEntriesItem = ({
   started_at,
   ended_at,
   lasted_for,
+  bpm,
 }) => {
   const [timeEntryEditOpened, setTimeEntryEditOpened] = useState(false);
 
@@ -38,6 +39,9 @@ const TimeEntriesItem = ({
         <Group position="apart">
           <Text size="sm">{description}</Text>
           <Group>
+            <Text size="sm" style={{ marginLeft: "1rem", width: "4rem" }}>
+              {bpm ? bpm + " bpm" : null}
+            </Text>
             <Text size="sm" style={{ marginLeft: "1rem", width: "6rem" }}>
               {started_at && dayjs(started_at).format("HH:mm")}
               {" - "}

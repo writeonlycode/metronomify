@@ -3,20 +3,26 @@ import React, { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { createTimeEntry } from "../../apis/timeEntries";
 
-import { ActionIcon, Group, TextInput } from "@mantine/core";
+import { ActionIcon, Group, NumberInput, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { showNotification } from "@mantine/notifications";
 import { DatePicker, TimeInput } from "@mantine/dates";
 
 import { IconLetterCase, IconPlus } from "@tabler/icons";
+import dayjs from "dayjs";
 
-const TimeEntriesCreate = ({ id }) => {
-  const [startedAtDate, setStartedAtDate] = useState(new Date());
-  const [endedAtDate, setEndedAtDate] = useState(new Date());
-  const [startedAtTime, setStartedAtTime] = useState(new Date());
-  const [endedAtTime, setEndedAtTime] = useState(new Date());
+const TimeEntriesCreate = () => {
+  const now = dayjs();
+
+  const [startedAtDate, setStartedAtDate] = useState(now.toDate());
+  const [startedAtTime, setStartedAtTime] = useState(now.toDate());
+
+  const [endedAtDate, setEndedAtDate] = useState(now.add(5, 'm').toDate());
+  const [endedAtTime, setEndedAtTime] = useState(now.add(5, 'm').toDate());
 
   useEffect(() => {
+    console.log(startedAtDate);
+    console.log(startedAtTime);
     form.setFieldValue(
       "started_at",
       new Date(
@@ -31,6 +37,8 @@ const TimeEntriesCreate = ({ id }) => {
   }, [startedAtDate, startedAtTime]);
 
   useEffect(() => {
+    console.log(endedAtDate);
+    console.log(endedAtTime);
     form.setFieldValue(
       "ended_at",
       new Date(
@@ -49,7 +57,6 @@ const TimeEntriesCreate = ({ id }) => {
   const createTimeEntryMutation = useMutation(createTimeEntry, {
     onSettled: () => {
       queryClient.invalidateQueries(["timeEntries"]);
-      queryClient.invalidateQueries(["timeEntries", id]);
     },
     onSuccess: (data) => {
       console.log(JSON.parse(JSON.stringify(data)));
@@ -70,9 +77,10 @@ const TimeEntriesCreate = ({ id }) => {
   const form = useForm({
     initialValues: {
       description: "",
-      started_at: "",
-      ended_at: "",
-      lasted_for: "",
+      bpm: null,
+      started_at: null,
+      ended_at: null,
+      lasted_for: null,
     },
   });
 
@@ -92,6 +100,11 @@ const TimeEntriesCreate = ({ id }) => {
           {...form.getInputProps("description")}
         />
         <Group styles={{ gap: 4 }}>
+          <NumberInput
+            placeholder="bpm"
+            style={{ width: "5rem" }}
+            {...form.getInputProps("bpm")}
+          />
           <Group
             sx={(theme) => ({
               backgroundColor: theme.colors.dark[5],
