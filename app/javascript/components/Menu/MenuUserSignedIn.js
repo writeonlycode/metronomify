@@ -8,6 +8,7 @@ import { showNotification } from "@mantine/notifications";
 import {
   IconDashboard,
   IconLogout,
+  IconReport,
   IconSettings,
   IconUser,
 } from "@tabler/icons";
@@ -16,6 +17,7 @@ import ModalProfile from "./ModalProfile";
 import ModalSettings from "./ModalSettings";
 
 import DrawerDashboard from "../Dashboard/DrawerDashboard";
+import DrawerReports from "../Reports/DrawerReports";
 
 import { fetchCurrentUser } from "../../apis/users";
 import { signOut } from "../../apis/users";
@@ -70,6 +72,13 @@ const MenuUserSignedIn = () => {
           Dashboard
         </Menu.Item>
         <Menu.Item
+          onClick={() => settingsApplication.setReportsOpened(true)}
+          icon={<IconReport size={14} />}
+        >
+          Reports
+        </Menu.Item>
+        <Divider />
+        <Menu.Item
           onClick={() => setProfileModalOpened(true)}
           icon={<IconUser size={14} />}
         >
@@ -92,6 +101,10 @@ const MenuUserSignedIn = () => {
       <DrawerDashboard
         opened={settingsApplication.dashboardOpened}
         setOpened={settingsApplication.setDashboardOpened}
+      />
+      <DrawerReports
+        opened={settingsApplication.reportsOpened}
+        setOpened={settingsApplication.setReportsOpened}
       />
       <ModalProfile
         opened={profileModalOpened}

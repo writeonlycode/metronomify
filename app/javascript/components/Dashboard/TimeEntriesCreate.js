@@ -21,8 +21,6 @@ const TimeEntriesCreate = () => {
   const [endedAtTime, setEndedAtTime] = useState(now.add(5, 'm').toDate());
 
   useEffect(() => {
-    console.log(startedAtDate);
-    console.log(startedAtTime);
     form.setFieldValue(
       "started_at",
       new Date(
@@ -37,8 +35,6 @@ const TimeEntriesCreate = () => {
   }, [startedAtDate, startedAtTime]);
 
   useEffect(() => {
-    console.log(endedAtDate);
-    console.log(endedAtTime);
     form.setFieldValue(
       "ended_at",
       new Date(
@@ -59,14 +55,12 @@ const TimeEntriesCreate = () => {
       queryClient.invalidateQueries(["timeEntries"]);
     },
     onSuccess: (data) => {
-      console.log(JSON.parse(JSON.stringify(data)));
       form.setFieldValue("description", "");
       showNotification({
         title: "The time entry has been created successfully.",
       });
     },
     onError: (errors) => {
-      console.log(JSON.parse(JSON.stringify(errors)));
       showNotification({
         color: "red",
         title: "Ops, something is wrong...",

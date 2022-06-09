@@ -24,6 +24,9 @@ import {
 } from "./Providers";
 import DisplayPomodoro from "./Display/DisplayPomodoro";
 
+import dayjs from "dayjs";
+window.dayjs = dayjs
+
 const App = () => {
   const settingsApplication = useContext(SettingsApplicationContext);
 

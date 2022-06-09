@@ -8,6 +8,7 @@ const useCustomHotkeys = (settingsApplication, setSettingsMetronome, setSettings
     ['PageDown', () => setSettingsMetronome((prevValue) => ({...prevValue, bpm: prevValue.bpm - 10}))],
     ['Space', () => setSettingsMetronome((prevValue) => ({...prevValue, running: !prevValue.running}))],
     ['D', () => settingsApplication.setDashboardOpened((value) => !value)],
+    ['R', () => settingsApplication.setReportsOpened((value) => !value)],
     ['S', () => settingsApplication.setSettingsOpened((value) => !value)],
     ['M', () => setSettingsMetronome((prevValue) => ({...prevValue, muted: !prevValue.muted}))],
   ]);
