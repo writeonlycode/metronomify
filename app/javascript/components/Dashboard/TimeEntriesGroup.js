@@ -21,12 +21,13 @@ const TimeEntriesGroup = ({ title, entries }) => {
       listStyleType="none"
       sx={(theme) => ({
         marginBottom: "16px",
-        padding: "16px",
+        paddingTop: "16px",
+        paddingbottom: "16px",
         backgroundColor: theme.colors.dark[9],
         borderRadius: "8px",
       })}
     >
-      <Title key={title} order={5}>
+      <Title key={title} order={5} style={{ paddingLeft: "1rem", paddingRight: "1rem", marginBottom: "0.4rem"}}>
         {title && dayjs(title).format("dddd, MMMM DD, YYYY")}
       </Title>
       {items}

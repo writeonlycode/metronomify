@@ -3,24 +3,10 @@ import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { indexTimeEntries } from "../../apis/timeEntries";
 
-import {
-  Drawer,
-  Group,
-  Select,
-  Text,
-  Title,
-  useMantineTheme,
-} from "@mantine/core";
-
+import { Drawer, Group, Select, Title, useMantineTheme, } from "@mantine/core";
 import { DateRangePicker } from "@mantine/dates";
 
-import {
-  Chart,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Tooltip,
-} from "chart.js";
+import { Chart, CategoryScale, LinearScale, BarElement, Tooltip, } from "chart.js";
 import { Bar } from "react-chartjs-2";
 
 import buildChartLabels from "../../utilities/buildChatLabels";
@@ -37,11 +23,7 @@ const DrawerReports = ({ opened, setOpened }) => {
     thisMonth: [now.date(1).toDate(), now.date(now.daysInMonth()).toDate()],
   };
 
-  const [dateRange, setDateRange] = useState([
-    now.day(0).toDate(),
-    now.day(6).toDate(),
-  ]);
-
+  const [dateRange, setDateRange] = useState(predefindedDataRanges.thisWeek);
   const [selectDateRange, setSelectDateRange] = useState("thisWeek");
 
   const { isLoading, isLoadingError, isFetching, data } = useQuery(
@@ -65,25 +47,30 @@ const DrawerReports = ({ opened, setOpened }) => {
 
   useEffect(() => {
     if (
-      dayjs(dateRange[0]).isSame(dayjs(predefindedDataRanges.today[0]), "d") &&
-      dayjs(dateRange[1]).isSame(dayjs(predefindedDataRanges.today[1]), "d")
+      dayjs(dateRange?.at(0)).isSame(
+        dayjs(predefindedDataRanges.today[0]),
+        "d"
+      ) &&
+      dayjs(dateRange?.at(1)).isSame(dayjs(predefindedDataRanges.today[1]), "d")
     ) {
       setSelectDateRange("today");
     } else if (
-      dayjs(dateRange[0]).isSame(dayjs(predefindedDataRanges.thisWeek[0]), "d") &&
-      dayjs(dateRange[1]).isSame(dayjs(predefindedDataRanges.thisWeek[1]), "d")
+      dayjs(dateRange?.at(0)).isSame( dayjs(predefindedDataRanges.thisWeek[0]), "d") &&
+      dayjs(dateRange?.at(1)).isSame( dayjs(predefindedDataRanges.thisWeek[1]), "d")
     ) {
       setSelectDateRange("thisWeek");
     } else if (
-      dayjs(dateRange[0]).isSame(dayjs(predefindedDataRanges.thisMonth[0]), "d") &&
-      dayjs(dateRange[1]).isSame(dayjs(predefindedDataRanges.thisMonth[1]), "d")
+      dayjs(dateRange?.at(0)).isSame( dayjs(predefindedDataRanges.thisMonth[0]), "d") &&
+      dayjs(dateRange?.at(1)).isSame( dayjs(predefindedDataRanges.thisMonth[1]), "d")
     ) {
       setSelectDateRange("thisMonth");
+    } else {
+      setSelectDateRange(null);
     }
   }, [dateRange]);
 
   useEffect(() => {
-    setDateRange(predefindedDataRanges[selectDateRange]);
+    selectDateRange && setDateRange(predefindedDataRanges[selectDateRange]);
   }, [selectDateRange]);
 
   const theme = useMantineTheme();

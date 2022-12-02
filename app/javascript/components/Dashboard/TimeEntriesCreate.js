@@ -3,50 +3,25 @@ import React, { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { createTimeEntry } from "../../apis/timeEntries";
 
-import { ActionIcon, Group, NumberInput, TextInput } from "@mantine/core";
+import { ActionIcon, Group, MediaQuery, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/hooks";
 import { showNotification } from "@mantine/notifications";
-import { DatePicker, TimeInput } from "@mantine/dates";
 
-import { IconLetterCase, IconPlus } from "@tabler/icons";
+import { IconPlus } from "@tabler/icons";
+import DateTimeRange from "./DateTimeRange";
+
 import dayjs from "dayjs";
 
 const TimeEntriesCreate = () => {
   const now = dayjs();
+  const then = now.add(5, "m");
 
-  const [startedAtDate, setStartedAtDate] = useState(now.toDate());
-  const [startedAtTime, setStartedAtTime] = useState(now.toDate());
-
-  const [endedAtDate, setEndedAtDate] = useState(now.add(5, 'm').toDate());
-  const [endedAtTime, setEndedAtTime] = useState(now.add(5, 'm').toDate());
+  const [dateRange, setDateRange] = useState([now.toDate(), then.toDate()]);
 
   useEffect(() => {
-    form.setFieldValue(
-      "started_at",
-      new Date(
-        startedAtDate?.getFullYear(),
-        startedAtDate?.getMonth(),
-        startedAtDate?.getDate(),
-        startedAtTime?.getHours(),
-        startedAtTime?.getMinutes(),
-        startedAtTime?.getSeconds()
-      ).toISOString()
-    );
-  }, [startedAtDate, startedAtTime]);
-
-  useEffect(() => {
-    form.setFieldValue(
-      "ended_at",
-      new Date(
-        endedAtDate?.getFullYear(),
-        endedAtDate?.getMonth(),
-        endedAtDate?.getDate(),
-        endedAtTime?.getHours(),
-        endedAtTime?.getMinutes(),
-        endedAtTime?.getSeconds()
-      ).toISOString()
-    );
-  }, [endedAtTime, endedAtTime]);
+    form.setFieldValue("started_at", dateRange[0].toISOString());
+    form.setFieldValue("ended_at", dateRange[1].toISOString());
+  }, [dateRange]);
 
   const queryClient = useQueryClient();
 
@@ -85,83 +60,32 @@ const TimeEntriesCreate = () => {
       })}
       style={{ display: "block" }}
     >
-      <Group>
+      <Group style={{ gap: 0 }}>
         <TextInput
-          icon={<IconLetterCase size="18px" />}
           placeholder="Description"
-          style={{ flexGrow: 1 }}
+          style={{ flexGrow: 10 }}
           disabled={createTimeEntryMutation.isLoading}
           {...form.getInputProps("description")}
         />
-        <Group styles={{ gap: 4 }}>
-          <NumberInput
-            placeholder="bpm"
-            style={{ width: "5rem" }}
-            {...form.getInputProps("bpm")}
+        <MediaQuery smallerThan="sm" styles={{ width: "100%" }}>
+          <DateTimeRange
+            value={dateRange}
+            onChange={setDateRange}
+            disabled={createTimeEntryMutation.isLoading}
           />
-          <Group
-            sx={(theme) => ({
-              backgroundColor: theme.colors.dark[5],
-              borderRadius: "8px",
-              gap: 0,
-            })}
+        </MediaQuery>
+        <MediaQuery smallerThan="sm" styles={{ width: "100%" }}>
+          <ActionIcon
+            variant="filled"
+            radius="xl"
+            size="lg"
+            type="submit"
+            color="primary"
+            loading={createTimeEntryMutation.isLoading}
           >
-            <DatePicker
-              value={startedAtDate}
-              onChange={setStartedAtDate}
-              inputFormat="MM/DD"
-              labelFormat="MM/DD"
-              clearable={false}
-              style={{ width: "4rem", input: { textAlign: "center" } }}
-              disabled={createTimeEntryMutation.isLoading}
-              required
-            />
-            <TimeInput
-              value={startedAtTime}
-              onChange={setStartedAtTime}
-              clearable={false}
-              style={{ width: "5rem", input: { textAlign: "center" } }}
-              disabled={createTimeEntryMutation.isLoading}
-              required
-            />
-          </Group>
-          <Group
-            sx={(theme) => ({
-              backgroundColor: theme.colors.dark[5],
-              borderRadius: "8px",
-              gap: 0,
-            })}
-          >
-            <DatePicker
-              value={endedAtDate}
-              onChange={setEndedAtDate}
-              inputFormat="MM/DD"
-              labelFormat="MM/DD"
-              clearable={false}
-              style={{ width: "4rem", input: { textAlign: "center" } }}
-              disabled={createTimeEntryMutation.isLoading}
-              required
-            />
-            <TimeInput
-              value={endedAtTime}
-              onChange={setEndedAtTime}
-              clearable={false}
-              style={{ width: "5rem", input: { textAlign: "center" } }}
-              disabled={createTimeEntryMutation.isLoading}
-              required
-            />
-          </Group>
-        </Group>
-        <ActionIcon
-          variant="filled"
-          radius="xl"
-          size="lg"
-          type="submit"
-          color="primary"
-          loading={createTimeEntryMutation.isLoading}
-        >
-          <IconPlus size="16" />
-        </ActionIcon>
+            <IconPlus size="16" />
+          </ActionIcon>
+        </MediaQuery>
       </Group>
     </form>
   );

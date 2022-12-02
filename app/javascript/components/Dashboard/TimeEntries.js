@@ -7,7 +7,6 @@ import { Alert, Button, Center, Loader, Stack, Text } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons";
 
 import TimeEntriesGroup from "./TimeEntriesGroup";
-
 import groupTimeEntriesByDay from "../../utilities/groupTimeEntriesByDay";
 
 import dayjs from "dayjs";
@@ -70,7 +69,7 @@ const TimeEntries = () => {
       {items}
       <Center>
         <Stack>
-          <Text size="sm">
+          <Text size="sm" align="center">
             Showing entries since {dateRange[0].toString()}.
           </Text>
           <Button
