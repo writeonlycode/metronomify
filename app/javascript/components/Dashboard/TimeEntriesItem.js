@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { ActionIcon, Group, List, MediaQuery, Modal, Text } from "@mantine/core";
+import {
+  ActionIcon,
+  Group,
+  List,
+  MediaQuery,
+  Modal,
+  Text,
+} from "@mantine/core";
 import { IconEdit } from "@tabler/icons";
 
 import TimeEntriesEdit from "./TimeEntriesEdit";
@@ -48,19 +55,21 @@ const TimeEntriesItem = ({
   return (
     <>
       <List.Item key={id} sx={sx} onClick={() => setTimeEntryEditOpened(true)}>
-        <Group position="apart" styles={{ root: {gap: 0} }}>
+        <Group position="apart" styles={{ root: { gap: 0 } }}>
           <MediaQuery smallerThan="sm" styles={{ width: "100%" }}>
             <Text size="sm">{description}</Text>
           </MediaQuery>
-          <Group styles={{ width: "100%", textAlign:"center" }}>
-              <Text size="sm" color="gray">
-                {started_at && dayjs(started_at).format("HH:mm")}
-                {" - "}
-                {ended_at && dayjs(ended_at).format("HH:mm")}
-              </Text>
-              <Text size="sm" fw={700}>
-                {lasted_for && dayjs.duration(lasted_for).format("H:mm:ss")}
-              </Text>
+          <Group styles={{ width: "100%", textAlign: "center" }}>
+            <Text size="sm" color="gray">
+              {started_at && dayjs(started_at).format("HH:mm")}
+              {" - "}
+              {ended_at && dayjs(ended_at).format("HH:mm")}
+            </Text>
+            <Text style={{ width: "6rem", textAlign: "right" }} size="sm" fw={700}>
+              {lasted_for && dayjs.duration(lasted_for).hours()
+                ? dayjs.duration(lasted_for).format("H:mm:ss")
+                : dayjs.duration(lasted_for).format("mm:ss")}
+            </Text>
           </Group>
         </Group>
       </List.Item>
