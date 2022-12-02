@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { indexTimeEntries } from "../../apis/timeEntries";
 
-import { Drawer, Group, Select, Title, useMantineTheme, } from "@mantine/core";
+import { Drawer, Group, LoadingOverlay, Select, Title, useMantineTheme, } from "@mantine/core";
 import { DateRangePicker } from "@mantine/dates";
 
 import { Chart, CategoryScale, LinearScale, BarElement, Tooltip, } from "chart.js";
@@ -143,7 +143,8 @@ const DrawerReports = ({ opened, setOpened }) => {
           ]}
         />
       </Group>
-      <div style={{ height: "50vh" }}>
+      <div style={{ position: "relative", height: "50vh" }}>
+        <LoadingOverlay visible={isLoading} overlayBlur={2} />
         <Bar options={options} data={graphData} />
       </div>
     </Drawer>
