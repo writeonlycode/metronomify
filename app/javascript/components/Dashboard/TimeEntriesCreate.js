@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { createTimeEntry } from "../../apis/timeEntries";
 
 import { ActionIcon, Group, MediaQuery, TextInput } from "@mantine/core";
-import { useForm } from "@mantine/hooks";
+import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 
 import { IconPlus } from "@tabler/icons";

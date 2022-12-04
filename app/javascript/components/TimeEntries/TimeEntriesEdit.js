@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { Button, Group, Space, Stack, TextInput } from "@mantine/core";
 import { DatePicker, TimeInput } from "@mantine/dates";
-import { useForm } from "@mantine/hooks";
+import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import { IconCalendar, IconClock, IconLetterCase } from "@tabler/icons";
 import { updateTimeEntry } from "../../apis/timeEntries";

@@ -1,7 +1,7 @@
 import React from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { TextInput, Space, Button } from "@mantine/core";
-import { useForm } from "@mantine/hooks";
+import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import { IconAt } from "@tabler/icons";
 import { createPassword } from "../../apis/users";
