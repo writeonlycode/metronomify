@@ -119,6 +119,7 @@ const ReportsFilters = ({
               flexGrow: 1,
             },
             input: { textAlign: "center" },
+            item: { textAlign: "center" },
           }}
           value={selectDateRange}
           onChange={setSelectDateRange}
