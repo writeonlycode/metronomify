@@ -51,9 +51,8 @@ const MenuUserSignedIn = () => {
 
   return (
     <>
-      <Menu
-        position="left"
-        control={
+      <Menu position="left-start">
+        <Menu.Target>
           <ActionIcon
             loading={currentUser.isLoading}
             size="xl"
@@ -62,41 +61,42 @@ const MenuUserSignedIn = () => {
           >
             <IconUser />
           </ActionIcon>
-        }
-      >
-        <Menu.Label>{currentUser.data?.email}</Menu.Label>
-        <Menu.Item
-          onClick={() => settingsApplication.setDashboardOpened(true)}
-          icon={<IconDashboard size={14} />}
-        >
-          Dashboard
-        </Menu.Item>
-        <Menu.Item
-          onClick={() => settingsApplication.setReportsOpened(true)}
-          icon={<IconReport size={14} />}
-        >
-          Reports
-        </Menu.Item>
-        <Divider />
-        <Menu.Item
-          onClick={() => setProfileModalOpened(true)}
-          icon={<IconUser size={14} />}
-        >
-          Profile
-        </Menu.Item>
-        <Menu.Item
-          onClick={() => settingsApplication.setSettingsOpened(true)}
-          icon={<IconSettings size={14} />}
-        >
-          Settings
-        </Menu.Item>
-        <Divider />
-        <Menu.Item
-          onClick={() => signOutMutation.mutate()}
-          icon={<IconLogout size={14} />}
-        >
-          Log Out
-        </Menu.Item>
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Label>{currentUser.data?.email}</Menu.Label>
+          <Menu.Item
+            onClick={() => settingsApplication.setDashboardOpened(true)}
+            icon={<IconDashboard size={14} />}
+          >
+            Dashboard
+          </Menu.Item>
+          <Menu.Item
+            onClick={() => settingsApplication.setReportsOpened(true)}
+            icon={<IconReport size={14} />}
+          >
+            Reports
+          </Menu.Item>
+          <Divider />
+          <Menu.Item
+            onClick={() => setProfileModalOpened(true)}
+            icon={<IconUser size={14} />}
+          >
+            Profile
+          </Menu.Item>
+          <Menu.Item
+            onClick={() => settingsApplication.setSettingsOpened(true)}
+            icon={<IconSettings size={14} />}
+          >
+            Settings
+          </Menu.Item>
+          <Divider />
+          <Menu.Item
+            onClick={() => signOutMutation.mutate()}
+            icon={<IconLogout size={14} />}
+          >
+            Log Out
+          </Menu.Item>
+        </Menu.Dropdown>
       </Menu>
       <DrawerDashboard
         opened={settingsApplication.dashboardOpened}
