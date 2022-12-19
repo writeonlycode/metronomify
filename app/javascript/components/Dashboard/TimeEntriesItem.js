@@ -1,16 +1,7 @@
 import React, { useState } from "react";
-import {
-  ActionIcon,
-  Group,
-  List,
-  MediaQuery,
-  Modal,
-  Text,
-} from "@mantine/core";
-import { IconEdit } from "@tabler/icons";
+import { Group, List, MediaQuery, Modal, Text } from "@mantine/core";
 
 import TimeEntriesEdit from "./TimeEntriesEdit";
-import TimeEntriesDestroy from "./TimeEntriesDestroy";
 
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
@@ -26,22 +17,14 @@ const TimeEntriesItem = ({
 }) => {
   const [timeEntryEditOpened, setTimeEntryEditOpened] = useState(false);
 
-  // const styles = {
-  //   paddingTop: "4px",
-  //   paddingBottom: "4px",
-  //   paddingLeft: "1rem",
-  //   paddingRight: "1rem",
-  //   borderRadius: "4px",
-  // };
-
   const sx = (theme) => ({
     paddingTop: "8px",
     paddingBottom: "8px",
     paddingLeft: "1rem",
     paddingRight: "1rem",
     borderBottom: `1px solid ${theme.colors.gray[8]}`,
-    marginLeft: "8px",
-    marginRight: "8px",
+    width: "100%",
+    cursor: "pointer",
 
     "&:last-child": {
       borderBottom: "none",
@@ -53,26 +36,31 @@ const TimeEntriesItem = ({
   });
 
   return (
-    <>
-      <List.Item key={id} sx={sx} onClick={() => setTimeEntryEditOpened(true)}>
-        <Group position="apart" styles={{ root: { gap: 0 } }}>
-          <MediaQuery smallerThan="sm" styles={{ width: "100%" }}>
-            <Text size="sm">{description}</Text>
-          </MediaQuery>
-          <Group styles={{ width: "100%", textAlign: "center" }}>
-            <Text size="sm" color="gray">
-              {started_at && dayjs(started_at).format("HH:mm")}
-              {" - "}
-              {ended_at && dayjs(ended_at).format("HH:mm")}
-            </Text>
-            <Text style={{ width: "6rem", textAlign: "right" }} size="sm" fw={700}>
-              {lasted_for && dayjs.duration(lasted_for).hours()
-                ? dayjs.duration(lasted_for).format("H:mm:ss")
-                : dayjs.duration(lasted_for).format("mm:ss")}
-            </Text>
-          </Group>
+    <List.Item key={id} sx={sx} onClick={() => setTimeEntryEditOpened(true)}>
+      <Group
+        position="apart"
+        styles={{ root: { gap: 0 } }}
+      >
+        <MediaQuery smallerThan="sm" styles={{ width: "100%" }}>
+          <Text size="sm">{description}</Text>
+        </MediaQuery>
+        <Group styles={{ width: "100%", textAlign: "center" }}>
+          <Text size="sm" color="gray">
+            {started_at && dayjs(started_at).format("HH:mm")}
+            {" - "}
+            {ended_at && dayjs(ended_at).format("HH:mm")}
+          </Text>
+          <Text
+            style={{ width: "6rem", textAlign: "right" }}
+            size="sm"
+            fw={700}
+          >
+            {lasted_for && dayjs.duration(lasted_for).hours()
+              ? dayjs.duration(lasted_for).format("H:mm:ss")
+              : dayjs.duration(lasted_for).format("mm:ss")}
+          </Text>
         </Group>
-      </List.Item>
+      </Group>
       <Modal
         opened={timeEntryEditOpened}
         onClose={() => setTimeEntryEditOpened(false)}
@@ -85,7 +73,7 @@ const TimeEntriesItem = ({
           ended_at={ended_at}
         />
       </Modal>
-    </>
+    </List.Item>
   );
 };
 

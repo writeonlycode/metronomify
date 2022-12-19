@@ -26,8 +26,21 @@ const TimeEntriesGroup = ({ title, entries }) => {
         backgroundColor: theme.colors.dark[9],
         borderRadius: "8px",
       })}
+      styles={{
+        itemWrapper: {
+          width: "100%",
+        },
+      }}
     >
-      <Title key={title} order={5} style={{ paddingLeft: "1rem", paddingRight: "1rem", marginBottom: "0.4rem"}}>
+      <Title
+        key={title}
+        order={5}
+        style={{
+          paddingLeft: "1rem",
+          paddingRight: "1rem",
+          marginBottom: "0.4rem",
+        }}
+      >
         {title && dayjs(title).format("dddd, MMMM DD, YYYY")}
       </Title>
       {items}
