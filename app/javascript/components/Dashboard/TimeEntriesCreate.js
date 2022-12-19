@@ -60,11 +60,12 @@ const TimeEntriesCreate = () => {
       })}
       style={{ display: "block" }}
     >
-      <Group style={{ gap: 0 }}>
+      <Group style={{ gap: 1 }}>
         <TextInput
           placeholder="Description"
           style={{ flexGrow: 10 }}
           disabled={createTimeEntryMutation.isLoading}
+          variant="filled"
           {...form.getInputProps("description")}
         />
         <MediaQuery smallerThan="sm" styles={{ width: "100%" }}>
@@ -72,6 +73,7 @@ const TimeEntriesCreate = () => {
             value={dateRange}
             onChange={setDateRange}
             disabled={createTimeEntryMutation.isLoading}
+            variant="filled"
           />
         </MediaQuery>
         <MediaQuery smallerThan="sm" styles={{ width: "100%" }}>

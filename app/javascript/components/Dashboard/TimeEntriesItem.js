@@ -37,14 +37,14 @@ const TimeEntriesItem = ({
 
   return (
     <List.Item key={id} sx={sx} onClick={() => setTimeEntryEditOpened(true)}>
-      <Group
-        position="apart"
-        styles={{ root: { gap: 0 } }}
-      >
+      <Group position="apart" styles={{ root: { gap: 0, width: "100%" } }}>
         <MediaQuery smallerThan="sm" styles={{ width: "100%" }}>
           <Text size="sm">{description}</Text>
         </MediaQuery>
-        <Group styles={{ width: "100%", textAlign: "center" }}>
+        <Group
+          position="apart"
+          style={{ width: "100%", textAlign: "center" }}
+        >
           <Text size="sm" color="gray">
             {started_at && dayjs(started_at).format("HH:mm")}
             {" - "}

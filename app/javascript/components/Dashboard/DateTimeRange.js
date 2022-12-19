@@ -10,7 +10,7 @@ const DateTimeRange = ({ value, onChange }, props) => {
   const [endTime, setEndTime] = useState(value[1]);
 
   useEffect(() => {
-    if (dayjs(startTime).isAfter(endTime, "second") ) {
+    if (dayjs(startTime).isAfter(endTime, "second")) {
       endDate = dayjs(startDate).add(1, "d").toDate();
     } else {
       endDate = startDate;
@@ -39,10 +39,16 @@ const DateTimeRange = ({ value, onChange }, props) => {
 
   return (
     <Group
+    position="apart"
       sx={(theme) => ({
         backgroundColor: theme.colors.dark[5],
         borderRadius: "8px",
-        gap: 0,
+        gap: 1,
+        width: "100%",
+
+        [`@media (min-width: ${theme.breakpoints.sm}px)`]: {
+          width: "initial",
+        },
       })}
       {...props}
     >
@@ -53,6 +59,7 @@ const DateTimeRange = ({ value, onChange }, props) => {
         labelFormat="MM/DD"
         clearable={false}
         styles={{ input: { width: "4rem", textAlign: "center" } }}
+        variant="filled"
         required
       />
       <TimeRangeInput
@@ -63,6 +70,7 @@ const DateTimeRange = ({ value, onChange }, props) => {
         }}
         clearable={false}
         styles={{ separator: { padding: 0 }, input: { textAlign: "center" } }}
+        variant="filled"
         required
       />
     </Group>
