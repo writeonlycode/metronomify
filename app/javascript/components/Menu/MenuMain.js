@@ -15,7 +15,8 @@ const MenuMain = () => {
 
   return (
     <Affix
-      position={{ top: 32, right: 32 }}
+      position={{ top: 16, right: 16 }}
+      zIndex={10}
       style={{ display: "flex", flexDirection: "column", gap: "8px" }}
     >
         {currentUser.data ? <MenuUserSignedIn /> : <MenuUserSignedOut />}
