@@ -2,7 +2,7 @@
   "name": "Metronomify",
   "short_name": "Metronomify",
   "start_url": "https://metronomify.up.railway.app/",
-  "display": "fullscreen",
+  "display": "standalone",
   "background_color": "#272A31",
   "theme_color": "#CD5E67",
   "description": "A simple and clean metronome with a practice tracker.",
