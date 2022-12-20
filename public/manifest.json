@@ -1,0 +1,21 @@
+{
+  "name": "Metronomify",
+  "short_name": "Metronomify",
+  "start_url": "https://metronomify.up.railway.app/",
+  "display": "fullscreen",
+  "background_color": "#272A31",
+  "theme_color": "#CD5E67",
+  "description": "A simple and clean metronome with a practice tracker.",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
