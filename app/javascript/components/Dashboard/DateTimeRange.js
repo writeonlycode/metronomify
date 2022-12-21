@@ -39,7 +39,7 @@ const DateTimeRange = ({ value, onChange }, props) => {
 
   return (
     <Group
-    position="apart"
+      position="apart"
       sx={(theme) => ({
         backgroundColor: theme.colors.dark[5],
         borderRadius: "8px",

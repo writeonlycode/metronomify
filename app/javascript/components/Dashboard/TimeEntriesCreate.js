@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from "react";
 
-import { useMutation, useQueryClient } from "react-query";
-import { createTimeEntry } from "../../apis/timeEntries";
-
-import { ActionIcon, Group, MediaQuery, TextInput } from "@mantine/core";
+import { ActionIcon, Group, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 
 import { IconPlus } from "@tabler/icons";
+
 import DateTimeRange from "./DateTimeRange";
+
+import { useMutation, useQueryClient } from "react-query";
+import { createTimeEntry } from "../../apis/timeEntries";
 
 import dayjs from "dayjs";
 
 const TimeEntriesCreate = () => {
   const now = dayjs();
-  const then = now.add(5, "m");
-
-  const [dateRange, setDateRange] = useState([now.toDate(), then.toDate()]);
+  const [dateRange, setDateRange] = useState([
+    now.toDate(),
+    now.add(5, "m").toDate(),
+  ]);
 
   useEffect(() => {
     form.setFieldValue("started_at", dateRange[0].toISOString());
@@ -29,13 +31,15 @@ const TimeEntriesCreate = () => {
     onSettled: () => {
       queryClient.invalidateQueries(["timeEntries"]);
     },
-    onSuccess: (data) => {
+
+    onSuccess: () => {
       form.setFieldValue("description", "");
       showNotification({
         title: "The time entry has been created successfully.",
       });
     },
-    onError: (errors) => {
+
+    onError: () => {
       showNotification({
         color: "red",
         title: "Ops, something is wrong...",
@@ -68,26 +72,29 @@ const TimeEntriesCreate = () => {
           variant="filled"
           {...form.getInputProps("description")}
         />
-        <MediaQuery smallerThan="sm" styles={{ width: "100%" }}>
-          <DateTimeRange
-            value={dateRange}
-            onChange={setDateRange}
-            disabled={createTimeEntryMutation.isLoading}
-            variant="filled"
-          />
-        </MediaQuery>
-        <MediaQuery smallerThan="sm" styles={{ width: "100%" }}>
-          <ActionIcon
-            variant="filled"
-            radius="xl"
-            size="lg"
-            type="submit"
-            color="primary"
-            loading={createTimeEntryMutation.isLoading}
-          >
-            <IconPlus size="16" />
-          </ActionIcon>
-        </MediaQuery>
+        <DateTimeRange
+          value={dateRange}
+          onChange={setDateRange}
+          disabled={createTimeEntryMutation.isLoading}
+          variant="filled"
+        />
+        <ActionIcon
+          variant="filled"
+          radius="xl"
+          size="lg"
+          type="submit"
+          color="primary"
+          loading={createTimeEntryMutation.isLoading}
+          sx={(theme) => ({
+            width: "100%",
+
+            [`@media (min-width: ${theme.breakpoints.sm}px)`]: {
+              width: "initial",
+            },
+          })}
+        >
+          <IconPlus size="16" />
+        </ActionIcon>
       </Group>
     </form>
   );

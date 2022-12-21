@@ -59,12 +59,15 @@ const TimeEntriesItem = ({
         </MediaQuery>
         <Group position="right" style={{ flexGrow: 1 }}>
           <Text size="sm" color="gray">
+            {bpm && `${bpm} bpm`}
+          </Text>
+          <Text size="sm" color="gray">
             {started_at && dayjs(started_at).format("HH:mm")}
             {" - "}
             {ended_at && dayjs(ended_at).format("HH:mm")}
           </Text>
           <Text
-            style={{ width: "6rem", textAlign: "right" }}
+            style={{ width: "4rem", textAlign: "right" }}
             size="sm"
             fw={700}
           >
@@ -82,8 +85,10 @@ const TimeEntriesItem = ({
         <TimeEntriesEdit
           id={id}
           description={description}
+          bpm={bpm}
           started_at={started_at}
           ended_at={ended_at}
+          setTimeEntryEditOpened={setTimeEntryEditOpened}
         />
       </Modal>
     </List.Item>

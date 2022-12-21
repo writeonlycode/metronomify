@@ -3,15 +3,16 @@ import React, { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { updateTimeEntry } from "../../apis/timeEntries";
 
-import { Button, Group, Space, Stack, TextInput } from "@mantine/core";
+import { Button, Group, NumberInput, Space, Stack, TextInput } from "@mantine/core";
 import { DatePicker, TimeInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 
-import { IconCalendar, IconClock, IconLetterCase } from "@tabler/icons";
+import { IconCalendar, IconClock, IconLetterCase, IconWiper } from "@tabler/icons";
 
 const TimeEntriesEdit = (props) => {
   const [description, setDescription] = useState("");
+  const [bpm, setBpm] = useState();
   const [startedAtDate, setStartedAtDate] = useState(new Date());
   const [startedAtTime, setStartedAtTime] = useState(new Date());
   const [endedAtDate, setEndedAtDate] = useState(new Date());
@@ -19,6 +20,7 @@ const TimeEntriesEdit = (props) => {
 
   useEffect(() => {
     setDescription(props.description);
+    setBpm(props.bpm);
     setStartedAtDate(new Date(props.started_at));
     setStartedAtTime(new Date(props.started_at));
     setEndedAtDate(new Date(props.ended_at));
@@ -35,6 +37,7 @@ const TimeEntriesEdit = (props) => {
       showNotification({
         title: "The time entry has been updated successfully.",
       });
+      props.setTimeEntryEditOpened(false)
     },
     onError: () => {
       showNotification({
@@ -47,6 +50,7 @@ const TimeEntriesEdit = (props) => {
   const form = useForm({
     initialValues: {
       description: "",
+      bpm: "",
       started_at: "",
       ended_at: "",
       lasted_for: "",
@@ -55,6 +59,7 @@ const TimeEntriesEdit = (props) => {
 
   useEffect(() => {
     form.setFieldValue("description", description);
+    form.setFieldValue("bpm", bpm);
     form.setFieldValue(
       "started_at",
       new Date(
@@ -78,7 +83,7 @@ const TimeEntriesEdit = (props) => {
         endedAtTime?.getSeconds()
       ).toISOString()
     );
-  }, [description, startedAtDate, startedAtTime, endedAtDate, endedAtTime]);
+  }, [description, bpm, startedAtDate, startedAtTime, endedAtDate, endedAtTime]);
 
   const onSubmitHandler = form.onSubmit((values) => {
     updateTimeEntryMutation.mutate({ id: props.id, ...values });
@@ -86,12 +91,20 @@ const TimeEntriesEdit = (props) => {
 
   return (
     <form onSubmit={onSubmitHandler}>
-      <TextInput
-        icon={<IconLetterCase size="18px" />}
-        placeholder="Description"
-        disabled={updateTimeEntryMutation.isLoading}
-        {...form.getInputProps("description")}
-      />
+      <Stack>
+        <TextInput
+          icon={<IconLetterCase size="18px" />}
+          placeholder="Description"
+          disabled={updateTimeEntryMutation.isLoading}
+          {...form.getInputProps("description")}
+        />
+        <NumberInput
+          icon={<IconWiper size="18px" />}
+          placeholder="BPM"
+          disabled={updateTimeEntryMutation.isLoading}
+          {...form.getInputProps("bpm")}
+        />
+      </Stack>
       <Space h="md" />
       <Group grow>
         <Stack>
