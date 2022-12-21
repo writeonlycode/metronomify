@@ -1,11 +1,25 @@
 import React, { useState } from "react";
-import { Group, List, MediaQuery, Modal, Text } from "@mantine/core";
+import {
+  createStyles,
+  Group,
+  List,
+  MediaQuery,
+  Modal,
+  Text,
+} from "@mantine/core";
 
 import TimeEntriesEdit from "./TimeEntriesEdit";
 
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 dayjs.extend(duration);
+
+const useStyles = createStyles((theme) => ({
+  root: {
+    rowGap: 0,
+    background: "red",
+  },
+}));
 
 const TimeEntriesItem = ({
   id,
@@ -35,16 +49,15 @@ const TimeEntriesItem = ({
     },
   });
 
+  const { classes } = useStyles();
+
   return (
     <List.Item key={id} sx={sx} onClick={() => setTimeEntryEditOpened(true)}>
-      <Group position="apart" styles={{ root: { gap: 0, width: "100%" } }}>
+      <Group position="apart" spacing="0">
         <MediaQuery smallerThan="sm" styles={{ width: "100%" }}>
           <Text size="sm">{description}</Text>
         </MediaQuery>
-        <Group
-          position="apart"
-          style={{ width: "100%", textAlign: "center" }}
-        >
+        <Group position="right" style={{ flexGrow: 1 }}>
           <Text size="sm" color="gray">
             {started_at && dayjs(started_at).format("HH:mm")}
             {" - "}

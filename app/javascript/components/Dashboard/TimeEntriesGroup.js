@@ -1,10 +1,25 @@
 import React from "react";
-import { List, Title } from "@mantine/core";
+import { createStyles, List, Title } from "@mantine/core";
 import TimeEntriesItem from "./TimeEntriesItem";
 
 import dayjs from "dayjs";
 
+const useStyles = createStyles((theme) => ({
+  root: {
+    marginBottom: "16px",
+    paddingTop: "16px",
+    paddingbottom: "16px",
+    backgroundColor: theme.colors.dark[9],
+    borderRadius: "8px",
+  },
+  itemWrapper: {
+    width: "100%",
+  },
+}));
+
 const TimeEntriesGroup = ({ title, entries }) => {
+  const { classes } = useStyles();
+
   const items = entries.map((element) => (
     <TimeEntriesItem
       key={element.id}
@@ -19,17 +34,9 @@ const TimeEntriesGroup = ({ title, entries }) => {
   return (
     <List
       listStyleType="none"
-      sx={(theme) => ({
-        marginBottom: "16px",
-        paddingTop: "16px",
-        paddingbottom: "16px",
-        backgroundColor: theme.colors.dark[9],
-        borderRadius: "8px",
-      })}
-      styles={{
-        itemWrapper: {
-          width: "100%",
-        },
+      classNames={{
+        root: classes.root,
+        itemWrapper: classes.itemWrapper,
       }}
     >
       <Title
