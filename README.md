@@ -1,24 +1,8 @@
-# README
+Metronomify is a metronome plus practice manager with pomodoro functionalities.
+It includes a built-in timer, a dashboard that list your practice sessions, and
+a report pane that shows your sessions with beautiful graphs. It’s powered by
+Ruby on Rails in the back-end and React in the front-end. It uses React Query
+for the state management and React components form Mantine.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+You can check out the application at:
+https://metronomify.onrender.com/
